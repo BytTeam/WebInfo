@@ -50,6 +50,9 @@ namespace App.WebInfo.MVCUI.Controllers
         public async Task<IActionResult> Create()
         {
             await Bind();
+            _model.Personal=new Personal();
+
+            
 
             return View(_model);
         }
