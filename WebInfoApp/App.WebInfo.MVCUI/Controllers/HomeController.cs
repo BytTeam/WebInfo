@@ -51,12 +51,15 @@ namespace App.WebInfo.MVCUI.Controllers
                 Icon = "icon-user"
             });
 
+            long kacakCount =
+               await _personalService.Count(x => !x.IsDelete && (x.IkametDurumu.IkametDurumuId == 3 ||  x.IkametDurumu.IkametDurumuId == 4));
             reportBoxs.Add(new HomeReporBoxModel
             {
-                Count = await _personalService.Count(x => !x.IsDelete),
-                Title = "Toplam Yabancı Sayısı",
-                SubTitle = "Yabancı Sayısı",
-                Icon = "icon-user"
+                Count = kacakCount,
+                Progress = (100 * kacakCount) / totalPersonalCount,
+                Title = "Kaçakların Sayısı",
+                SubTitle = "Kaçak Sayısı",
+                Icon = "icon-info"
             });
             var model = new HomeViewModel
             {
