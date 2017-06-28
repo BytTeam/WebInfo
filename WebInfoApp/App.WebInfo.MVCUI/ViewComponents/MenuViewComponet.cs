@@ -13,9 +13,16 @@ namespace App.WebInfo.MVCUI.ViewComponents
             _menuService = menuService;
         }
         public async Task<IViewComponentResult> InvokeAsync() {
+
+            var list = await _menuService.GetList(x => x.ParentId == 0);
+            foreach (var item in list)
+            {
+                item.SubMenu = await _menuService.GetList(x => x.ParentId == item.MenuId);
+            }
+
             MenuViewModel view = new MenuViewModel()
             {
-                list = await _menuService.GetList()
+                list = list
             };
             return View(view);
         }

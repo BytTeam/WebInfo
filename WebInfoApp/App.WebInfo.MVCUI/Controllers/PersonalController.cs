@@ -109,7 +109,14 @@ namespace App.WebInfo.MVCUI.Controllers
             return View(_model);
         }
 
-
+        public IActionResult List()
+        {
+            var model = new PersonalViewModel
+            {
+                Personal = new Personal()
+            };
+            return View(model);
+        }
 
         private async Task Bind()
         {
@@ -177,13 +184,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 {
                     model.Personal.CreationDate = DateTime.Now;
                     model.Personal.LastModifiedDate = DateTime.Now;
-                    model.Personal.Cinsiyet = _model.CinsiyetList.Select(x => new Cinsiyet()
-                    {
-                        CinsiyeId = Convert.ToInt32(x.Value),
-                        CinsiyetName = x.Text
-                    })
-                        .FirstOrDefault(x => x.CinsiyeId == model.Personal.Cinsiyet.CinsiyeId);
-
+                    model.Personal.IsNewItem = false;
                     var updatePersonal = _personal.Update(model.Personal);
                     await updatePersonal;
                     if (updatePersonal.IsCompleted)
@@ -194,7 +195,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 else
                 {
                     model.Personal.CreationDate = DateTime.Now;
-
+                    model.Personal.IsNewItem = true;
                     var addPersonal = _personal.Add(model.Personal);
                     await addPersonal;
                     if (addPersonal.IsCompleted)
@@ -289,7 +290,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 cacheModel = lists.Result;
                 var opts = new MemoryCacheEntryOptions()
                 {
-                    SlidingExpiration = TimeSpan.FromMinutes(30)
+                    SlidingExpiration = TimeSpan.FromMinutes(5)
                 };
                 _memoryCache.Set(cacheKey, cacheModel, opts);
             }
@@ -301,6 +302,68 @@ namespace App.WebInfo.MVCUI.Controllers
        
             //        return Task.FromResult(lists);
             //    });
+
+            List<Personal> list = cacheModel;
+
+            var filteredlist =
+                list
+                    .Select(x => new[] {
+                        x.PersonalId.ToString(),
+                        x.Adi,
+                        x.Soyadi,
+                        x.SahisNo,
+                        x.AileNo,
+                        x.AnaAdi,
+                        x.BabaAdi,
+                        Buttons(x.PersonalId,x.IsState)
+                    }).Where(x => string.IsNullOrEmpty(sSearch) || x.Any(y => y.IndexOf(sSearch, StringComparison.CurrentCultureIgnoreCase) >= 0));
+
+            var enumerable = filteredlist as string[][] ?? filteredlist.ToArray();
+            if (sSortDir_0 == "desc")
+            {
+                filteredlist = enumerable.OrderByDescending(x => (x[iSortCol_0]));
+
+                //.OrderByOrdinal(x => (x[iSortCol_0]).Parse(), sSortDir_0 == "desc")
+            }
+            else
+            {
+                filteredlist = enumerable.OrderBy(x => (x[iSortCol_0]));
+            }
+
+            filteredlist = filteredlist
+                .Skip(iDisplayStart)
+                .Take(iDisplayLength);
+
+            var orderedlist = filteredlist;
+            var model = new
+            {
+                aaData = orderedlist,
+                iTotalDisplayRecords = enumerable.Length,
+                iTotalRecords = list.Count(),
+                sEcho = sEcho.ToString()
+            };
+            return Json(model);
+        }
+
+        public async Task<JsonResult> NewList(int iDisplayStart, int iDisplayLength, string sSearch, int iColumns, int iSortingCols, int iSortCol_0, string sSortDir_0, int sEcho)
+        {
+           
+            object cacheKey = "PersonalNewList_CacheKey";
+
+            List<Personal> cacheModel;
+        
+            if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
+            {
+                var lists = _personal.GetList(x => !x.IsDelete && x.IsNewItem==true);
+                await lists;
+                cacheModel = lists.Result;
+                var opts = new MemoryCacheEntryOptions()
+                {
+                    SlidingExpiration = TimeSpan.FromMinutes(5)
+                };
+                _memoryCache.Set(cacheKey, cacheModel, opts);
+            }
+            
 
             List<Personal> list = cacheModel;
 
@@ -368,5 +431,7 @@ namespace App.WebInfo.MVCUI.Controllers
             }
             return Json(new { isSuccess = true });
         }
+
+        
     }
 }
