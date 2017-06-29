@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using App.WebInfo.Business;
+using App.WebInfo.MVCUI.Helpers;
 
 namespace App.WebInfo.MVCUI.Controllers
 {
@@ -20,20 +22,39 @@ namespace App.WebInfo.MVCUI.Controllers
         private readonly IPersonalService _personalService;
         private readonly IHostingEnvironment _environment;
 
-        public HomeController(IPersonalService personalService, IHostingEnvironment environment)
+        public HomeController(IPersonalService personalService, IHostingEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
             _personalService = personalService;
             _environment = environment;
+            _httpContextAccessor = httpContextAccessor;
+
+            
         }
 
         public async Task<IActionResult> Index()
         {
+
+            SessionUser sessionUser = new SessionUser
+            {
+                UserName = User.Identity.Name,
+                IsAdmin = User.IsInRole(AppConst.UserRole.Admin),
+                IsGeneral = User.IsInRole(AppConst.UserRole.General),
+                IsHelp = User.IsInRole(AppConst.UserRole.Help),
+                IsPrivate = User.IsInRole(AppConst.UserRole.Admin),
+                IsEducation = User.IsInRole(AppConst.UserRole.Admin),
+                IsCreate = User.IsInRole(AppConst.UserRole.Create),
+                IsDelete = User.IsInRole(AppConst.UserRole.Delete)
+            };
+            _httpContextAccessor.HttpContext.Session.SetObject(AppConst.UserSessionName, sessionUser);
+
+
+            var userName =User.Identity.Name;
             List<HomeReporBoxModel> reportBoxs = new List<HomeReporBoxModel>();
             long totalPersonalCount = await _personalService.Count(x => !x.IsDelete);
             reportBoxs.Add(new HomeReporBoxModel
             {
                 Count = totalPersonalCount,
-                Title = "Toplam Yabancı Sayısı",
+                Title = "Toplam Yabancı Sayısı"+ userName,
                 SubTitle = "Yabancı Sayısı",
                 Icon = "icon-user",
                 Progress = 100

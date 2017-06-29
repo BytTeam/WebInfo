@@ -7,12 +7,12 @@ namespace App.WebInfo.Entities.Concrete
 {
     public class EntitiyBase : IEntity
     {
-        public long? CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime CreationDate { get; set; }
 
-        public long? LastModified { get; set; }
+        public string LastModified { get; set; }
 
 
         public DateTime? LastModifiedDate { get; set; }
