@@ -1366,7 +1366,7 @@ File dropzone
 .m-grid.m-grid-demo .m-grid-col {
   border: 1px solid #ddd;
   background: #fafafa;
-  height: 100px; }
+  padding:10px; }
 
 .m-grid-col-xs-1 {
   width: 8.33333%; }
