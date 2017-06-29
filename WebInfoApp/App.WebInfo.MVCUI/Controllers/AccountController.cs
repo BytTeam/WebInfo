@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Core.Utilities;
+using App.WebInfo.Business;
+using App.WebInfo.Business.Abstract;
+using App.WebInfo.Business.Concrete;
 using App.WebInfo.Entities.Concrete;
 using App.WebInfo.MVCUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,17 +23,23 @@ namespace App.WebInfo.MVCUI.Controllers
         private UserManager<CustomIdentityUser> _userManager;
         private RoleManager<CustomIdentityRole> _roleManager;
         private SignInManager<CustomIdentityUser> _signInManager;
-
-        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager)
+        private IUserRoleService _userRoleManager;
+        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager, IUserRoleService userRoleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _userRoleManager = userRoleManager;
         }
 
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel
+            {
+                RoleList = new SelectList(_userRoleManager.GetRoles()
+                    .Select(x => new {Id = x.Name, Value = x.Name}), "Id", "Value")
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -84,7 +95,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel loginViewModel)
+        public ActionResult Login(LoginViewModel loginViewModel, string returnUrl="/")
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +104,8 @@ namespace App.WebInfo.MVCUI.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    
+                    return LocalRedirect(returnUrl);   
                 }
 
                 ModelState.AddModelError("", "Invalid login!");
@@ -115,6 +127,46 @@ namespace App.WebInfo.MVCUI.Controllers
         {
             List<CustomIdentityUser> userList = await _userManager.Users.ToListAsync();
             return View(userList);
+        }
+
+        public async Task<IActionResult> Role()
+        {
+
+            CustomIdentityRole generalRole = new CustomIdentityRole
+            {
+                Name = AppConst.UserRole.General
+            };
+            await _roleManager.CreateAsync(generalRole);
+            CustomIdentityRole privateRole = new CustomIdentityRole
+            {
+                Name = AppConst.UserRole.Private
+            };
+            await _roleManager.CreateAsync(privateRole);
+            CustomIdentityRole helpRole = new CustomIdentityRole
+            {
+                Name = AppConst.UserRole.Help
+            };
+            await _roleManager.CreateAsync(helpRole);
+            CustomIdentityRole educationRole = new CustomIdentityRole
+            {
+                Name = AppConst.UserRole.Education
+            };
+            await _roleManager.CreateAsync(educationRole);
+            CustomIdentityRole createRole = new CustomIdentityRole
+            {
+                Name = AppConst.UserRole.Create
+            };
+            await _roleManager.CreateAsync(createRole);
+            CustomIdentityRole deleteRole = new CustomIdentityRole
+            {
+                Name = AppConst.UserRole.Delete
+            };
+            await _roleManager.CreateAsync(deleteRole);
+
+            alertUi.AlertUiType = AlertUiType.success;
+            AlertUiMessage();
+
+            return View();
         }
     }
 }

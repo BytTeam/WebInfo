@@ -45,6 +45,9 @@ namespace App.WebInfo.MVCUI
             services.AddScoped<IUtileService, UtileManager>();
             services.AddScoped<IUtileDal, EfUtileDal>();
 
+            services.AddScoped<IUserRoleService, UserRoleManager>();
+            services.AddScoped<IUserRoleDal, EfUserRoleDal>();
+
             services.AddMemoryCache();
             services.AddMvc();
             services.AddDbContext<WebInfoContext>(options =>
