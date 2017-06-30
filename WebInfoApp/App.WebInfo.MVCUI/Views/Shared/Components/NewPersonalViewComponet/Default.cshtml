@@ -1,0 +1,8 @@
+﻿@model long
+
+<li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+    <a asp-controller="Personal" asp-action="List" class="dropdown-toggle">
+        <i class="icon-bell"></i>
+        <span class="badge badge-success"> @Model.ToString() </span>
+    </a>
+</li>

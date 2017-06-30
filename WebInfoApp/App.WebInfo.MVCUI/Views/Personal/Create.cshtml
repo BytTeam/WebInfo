@@ -29,6 +29,7 @@
         <form asp-controller="Personal" asp-action="Create" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="Personal.PersonalId" />
             <input type="hidden" asp-for="Personal.CreationDate" />
+            <input type="hidden" asp-for="Personal.CreatedBy" />
             @Html.AntiForgeryToken()
 
 

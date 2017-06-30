@@ -7,8 +7,10 @@ using App.WebInfo.Business;
 using App.WebInfo.Business.Abstract;
 using App.WebInfo.Business.Concrete;
 using App.WebInfo.Entities.Concrete;
+using App.WebInfo.MVCUI.Helpers;
 using App.WebInfo.MVCUI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,12 +26,14 @@ namespace App.WebInfo.MVCUI.Controllers
         private RoleManager<CustomIdentityRole> _roleManager;
         private SignInManager<CustomIdentityUser> _signInManager;
         private IUserRoleService _userRoleManager;
-        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager, IUserRoleService userRoleManager)
+        private IHttpContextAccessor _httpContextAccessor;
+        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager, IUserRoleService userRoleManager, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _userRoleManager = userRoleManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public ActionResult Register()
