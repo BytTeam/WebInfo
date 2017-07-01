@@ -27,13 +27,15 @@ namespace App.WebInfo.MVCUI.Controllers
         private readonly IUtileService _utileService;
         private PersonalViewModel _model;
         private readonly IHostingEnvironment _environment;
+        public sealed override IHttpContextAccessor _httpContextAccessor { get; set; }
 
-        public PersonalController(IPersonalService personal, IUtileService utileService, IMemoryCache memoryCache, IHostingEnvironment environment)
+        public PersonalController(IPersonalService personal, IUtileService utileService, IMemoryCache memoryCache, IHostingEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
             _personal = personal;
             _utileService = utileService;
             _environment = environment;
             _memoryCache = memoryCache;
+            _httpContextAccessor = httpContextAccessor;
             _model = new PersonalViewModel { Personal = new Personal() };
         }
 
@@ -182,7 +184,14 @@ namespace App.WebInfo.MVCUI.Controllers
                 }
                 if (model.Personal.PersonalId != 0)
                 {
-                    model.Personal.CreationDate = DateTime.Now;
+                    try
+                    {
+                        model.Personal.LastModified = GetLoginUser().UserName;
+                    }
+                    catch
+                    {
+
+                    }
                     model.Personal.LastModifiedDate = DateTime.Now;
                     model.Personal.IsNewItem = false;
                     var updatePersonal = _personal.Update(model.Personal);
@@ -196,6 +205,13 @@ namespace App.WebInfo.MVCUI.Controllers
                 {
                     model.Personal.CreationDate = DateTime.Now;
                     model.Personal.IsNewItem = true;
+                    try
+                    {
+                        model.Personal.CreatedBy = GetLoginUser().UserName;
+                    }
+                    catch{
+                        
+                    }
                     var addPersonal = _personal.Add(model.Personal);
                     await addPersonal;
                     if (addPersonal.IsCompleted)
