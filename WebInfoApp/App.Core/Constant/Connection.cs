@@ -9,6 +9,6 @@
         private static string local =
                 "Data Source=.;Initial Catalog=WebInfo;Integrated Security=True"
             ;
-        public static string ConnectionString { get; } = local;
+        public static string ConnectionString { get; } = azure;
     }
 }
