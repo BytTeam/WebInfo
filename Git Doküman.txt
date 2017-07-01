@@ -1,0 +1,5 @@
+1-Deðiþilik Varsa yaptýðýn. Commit yapýlacak.
+2-Fech Yapýlacak. 
+3-Rebase yapýlacak.
+
+Confilt---
