@@ -9,7 +9,7 @@ namespace App.WebInfo.MVCUI.ViewComponents
 {
     public class NewPersonalViewComponet : ViewComponent
     {
-        private IPersonalService _personalService;
+        private readonly IPersonalService _personalService;
 
         public NewPersonalViewComponet(IPersonalService personalService)
         {
@@ -18,7 +18,7 @@ namespace App.WebInfo.MVCUI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var count =await _personalService.Count(x => !x.IsDelete && x.IsNewItem);
+            var count =await _personalService.Count(x => !x.IsDelete && x.IsNewItem && !x.CreatedBy.Equals(User.Identity.Name));
 
             return View(count);
         }

@@ -172,7 +172,7 @@
                 <!-- BEGIN PAGE HEAD-->
                 <div class="page-head">
                     <!-- BEGIN PAGE TITLE -->
-                    <div class="page-title">
+                    <div class="page-title hidden-print">
                         <h1>
                             @ViewBag.SubTitle
                             <small>@ViewBag.SubDescription</small>
@@ -181,17 +181,7 @@
                     <!-- END PAGE TITLE -->
                 </div>
                 <!-- END PAGE HEAD-->
-                <!-- BEGIN PAGE BREADCRUMB -->
-                <ul class="page-breadcrumb breadcrumb">
-                    <li>
-                        <a href="/">Ana Sayfa</a>
-                        <i class="fa fa-circle"></i>
-                    </li>
-                    <li>
-                        <a class="active" href="@ViewBag.isMenuLink">@ViewBag.breadcrumb</a>
-                    </li>
-                </ul>
-                <!-- END PAGE BREADCRUMB -->
+                
                 <!-- BEGIN PAGE BASE CONTENT -->
                 @RenderBody()
 
@@ -218,12 +208,13 @@
     <!-- END FOOTER -->
 
     <environment names="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+        @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="/lib/jquery/dist/jquery.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
+        </script>*@
+        <script src="/lib/jquery/dist/jquery.js"></script>
         <script src="/assets/global/plugins/bootstrap/js/bootstrap.js"></script>
         <script src="/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.js"></script>
         <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>

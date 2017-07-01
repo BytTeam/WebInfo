@@ -7,8 +7,8 @@
             ;
 
         private static string local =
-                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=WebInfo;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+                "Data Source=.;Initial Catalog=WebInfo;Integrated Security=True"
             ;
-        public static string ConnectionString { get; } = azure;
+        public static string ConnectionString { get; } = local;
     }
 }

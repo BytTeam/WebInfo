@@ -1,5 +1,4 @@
-﻿@using App.WebInfo.Entities.Concrete
-@model App.WebInfo.MVCUI.Models.PersonalViewModel
+﻿@model App.WebInfo.MVCUI.Models.PersonalViewModel
 
 @{
     ViewBag.Title = "Yabancı Görüntüleme";
@@ -7,29 +6,20 @@
     ViewBag.SubTitle = "Yabancı Ekle";
     ViewBag.SubDescription = "Yabancı Listesi";
 }
+
 <div class="portlet light bordered">
-    <div class="portlet-title">
+    <div class="portlet-title hidden-print">
         <div class="caption">
             <i class=" icon-layers font-red"></i>
-            <span class="caption-subject font-red sbold uppercase">Personel Ekle</span>
+            <span class="caption-subject font-red sbold uppercase">Personel Detay</span>
         </div>
         <div class="actions">
-            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                <i class="icon-cloud-upload"></i>
-            </a>
-            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                <i class="icon-wrench"></i>
-            </a>
-            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                <i class="icon-trash"></i>
+            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;" onclick="window.print()">
+                <i class="icon-printer"></i>
             </a>
         </div>
     </div>
-    <div class="portlet-body">
-        
-            <input type="hidden" asp-for="Personal.PersonalId" />
-            <input type="hidden" asp-for="Personal.CreationDate" />
-            @Html.AntiForgeryToken()
+    <div class="portlet-body print-area">
         <div style="clear:both;"></div>
         
          
@@ -151,7 +141,6 @@
             <!--tab_1_2-->
             
         
-        </div>
        
 
 
@@ -167,7 +156,4 @@
                         
 
                    
-            </div>
-
-        
-    </div>
+      
