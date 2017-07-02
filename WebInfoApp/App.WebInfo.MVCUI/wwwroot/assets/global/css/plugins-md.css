@@ -6,6 +6,15 @@
 /***
 Bootstrap Colorpicker
 ***/
+.bizedemi-col-2 {
+    max-width:200px !important;
+    float:left;
+    margin:10px !important;
+}
+.olmusmu {
+    padding:5px !important;
+    border: solid 1px #aaa !important;
+}
 .input-group.color .input-group-btn i {
   position: absolute;
   display: block;
