@@ -16,7 +16,7 @@ using App.WebInfo.MVCUI.Helpers;
 
 namespace App.WebInfo.MVCUI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class HomeController : ControllerBase
     {
         private readonly IPersonalService _personalService;
@@ -45,6 +45,12 @@ namespace App.WebInfo.MVCUI.Controllers
                 IsCreate = User.IsInRole(AppConst.UserRole.Create),
                 IsDelete = User.IsInRole(AppConst.UserRole.Delete)
             };
+            if (sessionUser.IsAdmin)
+            {
+                sessionUser.IsGeneral = sessionUser.IsHelp =
+                    sessionUser.IsPrivate = sessionUser.IsEducation =
+                        sessionUser.IsCreate = sessionUser.IsDelete = true;
+            }
             _httpContextAccessor.HttpContext.Session.SetObject(AppConst.UserSessionName, sessionUser);
 
 

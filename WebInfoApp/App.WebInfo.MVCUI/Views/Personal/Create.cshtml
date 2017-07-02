@@ -35,26 +35,30 @@
 
             <div class="tabbable tabbable-tabdrop">
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#tab1" data-toggle="tab">Genel Nüfus Bilgileri</a>
-                    </li>
+                    @if (Model.SessionUser.IsGeneral) { 
+                        <li>
+                            <a href="#tab1" data-toggle="tab">Genel Nüfus Bilgileri</a>
+                        </li>
+                    }
                     <li>
                         <a href="#tab3" data-toggle="tab">Adres Bilgileri</a>
                     </li>
                     <li>
-<li>
+                    <li>
                         <a href="#tab2" data-toggle="tab">Sağlık Bilgileri</a>
                     </li>
                     <li>
                         <a href="#tab4" data-toggle="tab">Eğitim Bilgileri</a>
                     </li>
-                    
+
                     <li>
                         <a href="#tab5" data-toggle="tab">Adli İşlem Bilgileri</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab1">
+                @if (Model.SessionUser.IsGeneral)
+                {
+                    <div class="tab-pane" id="tab1">
 
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                             <label asp-for="Personal.Adi" for="form_control_1"></label>
@@ -108,10 +112,10 @@
 
                         <div class="form-group form-md-line-input form-md-floating-label bizedemi-col-2">
                             <label asp-for="Personal.DogumTarihi"></label>
-                          
-                                <input class="form-control form-control-inline date-picker olmusmu" asp-for="Personal.DogumTarihi" asp-items="@Model.Personal.DogumTarihi" size="16" type="text" value="">
+
+                            <input class="form-control form-control-inline date-picker olmusmu" asp-for="Personal.DogumTarihi" asp-items="@Model.Personal.DogumTarihi" size="16" type="text" value="">
                             <span asp-validation-for="Personal.Din" class="help-block"></span>
-                            
+
                         </div>
 
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
@@ -119,10 +123,10 @@
                             <select class="form-control olmusmu" asp-for="Personal.DogumYeri.DogumYeriId" asp-items="@Model.DogumYeriList"></select>
                             <span asp-validation-for="Personal.DogumYeri" class="help-block"></span>
                         </div>
-                        <div style="clear:both; height:30px;"></div>
+                        <div style="clear: both; height: 30px;"></div>
                         <div class="form-group form-md-line-input  form-md-floating-label clearfix">
                             <div class="col-xs-12 col-sm-2 col-md-2 text-center">
-                                <img src="@Model.Personal.PersonalImage" style="max-width: 150px; border-radius:50%" />
+                                <img src="@Model.Personal.PersonalImage" style="max-width: 150px; border-radius: 50%"/>
                             </div>
                             <div class="col-xs-12 col-sm-10 col-md-10">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -131,11 +135,11 @@
                                             <i class="fa fa-file-o fileinput-exists"></i>
                                             <span class="fileinput-filename"> </span>
                                         </div>
-                                        
+
                                         <span class="input-group-addon btn default btn-file">
                                             <span class="fileinput-new"> Resim Seç </span>
                                             <span class="fileinput-exists"> Değiştir </span>
-                                            <input type="file" accept="*/.jpg" name="personalImage" asp-for="Personal.PersonalImage" />
+                                            <input type="file" accept="*/.jpg" name="personalImage" asp-for="Personal.PersonalImage"/>
                                         </span>
                                         <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Kaldır </a>
                                     </div>
@@ -144,66 +148,60 @@
                         </div>
 
                     </div>
+                }
+                    <div class="tab-pane" id="tab3">
 
-                    <div class="tab-pane" id="tab2">
-
-
-
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.IkametDurumu.IkametDurumuId" asp-items="@Model.IkametDurumuList"></select>
+                            <label asp-for="Personal.IkametDurumu"></label>
+                            <span asp-validation-for="Personal.IkametDurumu" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.Il.IlId" asp-items="@Model.IlList"></select>
+                            <label> Kayıtlı Olduğu İl</label>
+                            <span asp-validation-for="Personal.Il" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.Ilce.IlceId" asp-items="@Model.IlceList"></select>
+                            <label>Kayıtlı Olduğu İlçe</label>
+                            <span asp-validation-for="Personal.Ilce" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab4">
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.EgitimDurumu.EgitimDurumuId" asp-items="@Model.EgitimDurumuList"></select>
+                            <label> Eğitim Durumu</label>
+                            <span asp-validation-for="Personal.EgitimDurumu" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.IslemYapan.IslemYapanId" asp-items="@Model.IslemYapanList"></select>
+                            <label asp-for="Personal.IslemYapan"></label>
+                            <span asp-validation-for="Personal.IslemYapan" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.KanGrubu.KanGrubuId" asp-items="@Model.KanGrubuList"></select>
+                            <label asp-for="Personal.KanGrubu"></label>
+                            <span asp-validation-for="Personal.KanGrubu" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.Uyruk.UyrukId" asp-items="@Model.UyrukList"></select>
+                            <label asp-for="Personal.Uyruk"></label>
+                            <span asp-validation-for="Personal.Uyruk" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <select class="form-control" asp-for="Personal.SaglikDurumu.SaglikDurumuId" asp-items="@Model.SaglikDurumuList"></select>
+                            <label asp-for="Personal.SaglikDurumu"></label>
+                            <span asp-validation-for="Personal.SaglikDurumu" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab5">
+                        <p> Howdy, I'm in Section 5. </p>
+                    </div>
+                    <div class="tab-pane" id="tab6">
+                        <p> Howdy, I'm in Section6. </p>
                     </div>
 
-                        <div class="tab-pane" id="tab3">
-                            
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.IkametDurumu.IkametDurumuId" asp-items="@Model.IkametDurumuList"></select>
-                                <label asp-for="Personal.IkametDurumu"></label>
-                                <span asp-validation-for="Personal.IkametDurumu" class="help-block"></span>
-                            </div>
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.Il.IlId" asp-items="@Model.IlList"></select>
-                                <label> Kayıtlı Olduğu İl</label>
-                                <span asp-validation-for="Personal.Il" class="help-block"></span>
-                            </div>
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.Ilce.IlceId" asp-items="@Model.IlceList"></select>
-                                <label>Kayıtlı Olduğu İlçe</label>
-                                <span asp-validation-for="Personal.Ilce" class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab4">
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.EgitimDurumu.EgitimDurumuId" asp-items="@Model.EgitimDurumuList"></select>
-                                <label> Eğitim Durumu</label>
-                                <span asp-validation-for="Personal.EgitimDurumu" class="help-block"></span>
-                            </div>
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.IslemYapan.IslemYapanId" asp-items="@Model.IslemYapanList"></select>
-                                <label asp-for="Personal.IslemYapan"></label>
-                                <span asp-validation-for="Personal.IslemYapan" class="help-block"></span>
-                            </div>
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.KanGrubu.KanGrubuId" asp-items="@Model.KanGrubuList"></select>
-                                <label asp-for="Personal.KanGrubu"></label>
-                                <span asp-validation-for="Personal.KanGrubu" class="help-block"></span>
-                            </div>
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.Uyruk.UyrukId" asp-items="@Model.UyrukList"></select>
-                                <label asp-for="Personal.Uyruk"></label>
-                                <span asp-validation-for="Personal.Uyruk" class="help-block"></span>
-                            </div>
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <select class="form-control" asp-for="Personal.SaglikDurumu.SaglikDurumuId" asp-items="@Model.SaglikDurumuList"></select>
-                                <label asp-for="Personal.SaglikDurumu"></label>
-                                <span asp-validation-for="Personal.SaglikDurumu" class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab5">
-                            <p> Howdy, I'm in Section 5. </p>
-                        </div>
-                        <div class="tab-pane" id="tab6">
-                            <p> Howdy, I'm in Section6. </p>
-                        </div>
-
-                    </div>
+                </div>
             </div>
 
             <div class="form-actions noborder">

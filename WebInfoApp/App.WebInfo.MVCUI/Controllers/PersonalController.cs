@@ -44,17 +44,18 @@ namespace App.WebInfo.MVCUI.Controllers
         {
             var model = new PersonalViewModel
             {
-                Personal = new Personal()
+                Personal = new Personal(),
+                SessionUser = GetLoginUser()
             };
             return View(model);
         }
-
+        [Authorize(Roles = "Admin,Create")]
         public async Task<IActionResult> Create()
         {
             await Bind();
-            _model.Personal=new Personal();
+            _model.Personal = new Personal();
+            _model.SessionUser = GetLoginUser();
 
-            
 
             return View(_model);
         }
@@ -127,30 +128,30 @@ namespace App.WebInfo.MVCUI.Controllers
             if (!_memoryCache.TryGetValue(CacheKey, out cacheModel))
             {
                 var cinsiyetTask = _utileService.GetCinsiyets();
-            var dinTask = _utileService.GetDins();
-            var dogumYeriTask = _utileService.GetDogumYeris();
-            var egitimDurumuTask = _utileService.GetEgitimDurumus();
-            var ikametDurumuTask = _utileService.GetIkametDurumus();
-            var ilTask = _utileService.GetIls();
-            var ilceTask = _utileService.GetIlces();
-            var islemYapanTask = _utileService.GetIslemYapans();
-            var kanGrubuTask = _utileService.GetKanGrubus();
-            var uyrukTask = _utileService.GetUyruks();
-            var saglikDurumuTask = _utileService.GetSaglikDurumus();
+                var dinTask = _utileService.GetDins();
+                var dogumYeriTask = _utileService.GetDogumYeris();
+                var egitimDurumuTask = _utileService.GetEgitimDurumus();
+                var ikametDurumuTask = _utileService.GetIkametDurumus();
+                var ilTask = _utileService.GetIls();
+                var ilceTask = _utileService.GetIlces();
+                var islemYapanTask = _utileService.GetIslemYapans();
+                var kanGrubuTask = _utileService.GetKanGrubus();
+                var uyrukTask = _utileService.GetUyruks();
+                var saglikDurumuTask = _utileService.GetSaglikDurumus();
 
-            await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask);
 
-            _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
-            _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
-            _model.DogumYeriList = ConvertSelectList(dogumYeriTask.Result.Select(x => new { Id = x.DogumYeriId, Value = x.DogumYeriName }));
-            _model.EgitimDurumuList = ConvertSelectList(egitimDurumuTask.Result.Select(x => new { Id = x.EgitimDurumuId, Value = x.EgitimDurumuName }));
-            _model.IkametDurumuList = ConvertSelectList(ikametDurumuTask.Result.Select(x => new { Id = x.IkametDurumuId, Value = x.IkametDurumuName }));
-            _model.IlList = ConvertSelectList(ilTask.Result.Select(x => new { Id = x.IlId, Value = x.IlName }));
-            _model.IlceList = ConvertSelectList(ilceTask.Result.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
-            _model.IslemYapanList = ConvertSelectList(islemYapanTask.Result.Select(x => new { Id = x.IslemYapanId, Value = x.IslemYapanName }));
-            _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
-            _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
-            _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
+                _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
+                _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
+                _model.DogumYeriList = ConvertSelectList(dogumYeriTask.Result.Select(x => new { Id = x.DogumYeriId, Value = x.DogumYeriName }));
+                _model.EgitimDurumuList = ConvertSelectList(egitimDurumuTask.Result.Select(x => new { Id = x.EgitimDurumuId, Value = x.EgitimDurumuName }));
+                _model.IkametDurumuList = ConvertSelectList(ikametDurumuTask.Result.Select(x => new { Id = x.IkametDurumuId, Value = x.IkametDurumuName }));
+                _model.IlList = ConvertSelectList(ilTask.Result.Select(x => new { Id = x.IlId, Value = x.IlName }));
+                _model.IlceList = ConvertSelectList(ilceTask.Result.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+                _model.IslemYapanList = ConvertSelectList(islemYapanTask.Result.Select(x => new { Id = x.IslemYapanId, Value = x.IslemYapanName }));
+                _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
+                _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
+                _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
                 cacheModel = _model;
 
                 var opts = new MemoryCacheEntryOptions()
@@ -164,6 +165,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Create")]
         public async Task<IActionResult> Create(PersonalViewModel model, IFormFile personalImage)
         {
             try
@@ -209,8 +211,9 @@ namespace App.WebInfo.MVCUI.Controllers
                     {
                         model.Personal.CreatedBy = GetLoginUser().UserName;
                     }
-                    catch{
-                        
+                    catch
+                    {
+
                     }
                     var addPersonal = _personal.Add(model.Personal);
                     await addPersonal;
@@ -315,7 +318,7 @@ namespace App.WebInfo.MVCUI.Controllers
             //    {
             //        entry.SlidingExpiration = TimeSpan.FromSeconds(3);
             //        var lists = _personal.GetList(x => !x.IsDelete);
-       
+
             //        return Task.FromResult(lists);
             //    });
 
@@ -363,14 +366,14 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public async Task<JsonResult> NewList(int iDisplayStart, int iDisplayLength, string sSearch, int iColumns, int iSortingCols, int iSortCol_0, string sSortDir_0, int sEcho)
         {
-           
+
             object cacheKey = "PersonalNewList_CacheKey";
 
             List<Personal> cacheModel;
-        
+
             if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
             {
-                var lists = _personal.GetList(x => !x.IsDelete && x.IsNewItem==true);
+                var lists = _personal.GetList(x => !x.IsDelete && x.IsNewItem == true);
                 await lists;
                 cacheModel = lists.Result;
                 var opts = new MemoryCacheEntryOptions()
@@ -379,7 +382,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 };
                 _memoryCache.Set(cacheKey, cacheModel, opts);
             }
-            
+
 
             List<Personal> list = cacheModel;
 
@@ -448,6 +451,6 @@ namespace App.WebInfo.MVCUI.Controllers
             return Json(new { isSuccess = true });
         }
 
-        
+
     }
 }

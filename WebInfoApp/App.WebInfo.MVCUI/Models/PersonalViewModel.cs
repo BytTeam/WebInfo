@@ -1,4 +1,5 @@
 ﻿using App.WebInfo.Entities.Concrete;
+using App.WebInfo.MVCUI.Helpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.WebInfo.MVCUI.Models
@@ -22,6 +23,6 @@ namespace App.WebInfo.MVCUI.Models
         public SelectList SosyalYardimDurumuList { get; set; }
         public SelectList UyrukList { get; set; }
 
-
+        public SessionUser SessionUser { get; set; }
     }
 }

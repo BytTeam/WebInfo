@@ -1,4 +1,5 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -42,7 +43,7 @@
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo page-md">
+<body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed page-md">
     <!-- BEGIN HEADER -->
     <div class="page-header navbar navbar-fixed-top">
         <!-- BEGIN HEADER INNER -->
@@ -62,37 +63,7 @@
             <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <!-- BEGIN PAGE TOP -->
-            <div class="page-actions">
-                <div class="btn-group">
-                    <button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">
-                        <span class="hidden-sm hidden-xs">İşlemler&nbsp;</span>
-                        <i class="fa fa-angle-down"></i>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a asp-controller="Home" asp-action="ImportFile">
-                                <i class="icon-docs"></i> Toplu Yükleme </a>
-                        </li>
-                        <li>
-                            <a asp-controller="Account" asp-action="List">
-                                <i class="icon-user"></i> Kullancılar </a>
-                        </li>
-                        <li class="divider"> </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="icon-settings"></i> Ayarlar
-                                <span class="badge badge-success">4</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="icon-users"></i> Feedbacks
-                                <span class="badge badge-danger">2</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            @await Component.InvokeAsync("PageActionViewComponet")
         
         <div class="page-top">
      
@@ -142,7 +113,7 @@
 
 
 
-                <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                <ul class="page-sidebar-menu page-sidebar-menu-closed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                     <li class="nav-item start ">
 
                         <a href="/" class="nav-link nav-toggle">
@@ -168,7 +139,7 @@
         <!-- BEGIN CONTENT -->
         <div class="page-content-wrapper">
             <!-- BEGIN CONTENT BODY -->
-            <div class="page-content">
+            <div class="page-content" style="min-height: 500px;">
                 <!-- BEGIN PAGE HEAD-->
                 <div class="page-head">
                     <!-- BEGIN PAGE TITLE -->
@@ -231,7 +202,7 @@
         <script src="/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
         <script src="/assets/global/plugins/select2/js/select2.full.min.js"></script>
         <script src="/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
-        <script src="/assets/pages/scripts/components-bootstrap-select.js"></script>
+        <script src="/assets/pages/scripts/components-select2.js"></script>
         <script src="/assets/apps/scripts/todo.min.js"></script>
         <script src="/assets/pages/scripts/components-date-time-pickers.min.js"></script>
         <script src="/assets/global/plugins/sweetalert/sweetalert.min.js"></script>
