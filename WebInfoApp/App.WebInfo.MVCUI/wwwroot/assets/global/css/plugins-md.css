@@ -12,8 +12,9 @@ Bootstrap Colorpicker
     margin:10px !important;
 }
 .olmusmu {
-    padding:5px !important;
+    padding: 5px !important;
     border: solid 1px #aaa !important;
+    background-color: azure !important;
 }
 .input-group.color .input-group-btn i {
   position: absolute;
