@@ -40,7 +40,7 @@ namespace App.WebInfo.MVCUI.Controllers
         {
             RegisterViewModel model = new RegisterViewModel
             {
-                RoleList = new SelectList(_userRoleManager.GetRoles()
+                RoleList = new SelectList(_userRoleManager.GetRoles().Where(x=>!x.Name.Equals("Admin"))
                     .Select(x => new {Id = x.Name, Value = x.Name}), "Id", "Value")
             };
             return View(model);
@@ -63,23 +63,12 @@ namespace App.WebInfo.MVCUI.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (!_roleManager.RoleExistsAsync("Admin").Result)
+                   // string[] roleSplit = registerViewModel.Roles.Split(',');
+                    foreach (string rol in registerViewModel.Roles)
                     {
-                        CustomIdentityRole role = new CustomIdentityRole
-                        {
-                            Name = "Admin"
-                        };
-
-                        IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
-
-                        if (!roleResult.Succeeded)
-                        {
-                            ModelState.AddModelError("", "We can't add the role!");
-                            return View(registerViewModel);
-                        }
+                        _userManager.AddToRoleAsync(user, rol).Wait();
                     }
-
-                    _userManager.AddToRoleAsync(user, "Admin").Wait();
+                    
                     return RedirectToAction("Login", "Account");
                 }
             }
@@ -170,6 +159,11 @@ namespace App.WebInfo.MVCUI.Controllers
             alertUi.AlertUiType = AlertUiType.success;
             AlertUiMessage();
 
+            return View();
+        }
+
+        public async Task<IActionResult> AccessDenied()
+        {
             return View();
         }
     }
