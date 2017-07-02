@@ -57,6 +57,7 @@ namespace App.WebInfo.MVCUI.Controllers
             _model.SessionUser = GetLoginUser();
 
 
+
             return View(_model);
         }
 
@@ -138,8 +139,9 @@ namespace App.WebInfo.MVCUI.Controllers
                 var kanGrubuTask = _utileService.GetKanGrubus();
                 var uyrukTask = _utileService.GetUyruks();
                 var saglikDurumuTask = _utileService.GetSaglikDurumus();
+                var kangurubuTask = _utileService.GetKanGrubus();
 
-                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask);
 
                 _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
                 _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
@@ -152,6 +154,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
                 _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
+                _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 cacheModel = _model;
 
                 var opts = new MemoryCacheEntryOptions()
