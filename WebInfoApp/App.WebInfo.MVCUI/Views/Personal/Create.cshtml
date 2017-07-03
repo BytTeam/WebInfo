@@ -36,29 +36,32 @@
             <div class="tabbable tabbable-tabdrop">
                 <ul class="nav nav-tabs">
                     @if (Model.SessionUser.IsGeneral) { 
-                        <li>
-                            <a href="#tab1" data-toggle="tab">Genel Nüfus Bilgileri</a>
+                        <li class="active">
+                            <a href="#tab1"  data-toggle="tab">Genel Nüfus Bil.</a>
                         </li>
                     }
                     <li>
-                        <a href="#tab2" data-toggle="tab">Adres Bilgileri</a>
+                        <a href="#tab2" data-toggle="tab">Adres Bil.</a>
                     </li>
                     <li>
                     <li>
-                        <a href="#tab3" data-toggle="tab">Sağlık Bilgileri</a>
+                        <a href="#tab3" data-toggle="tab">Sağlık BBil.</a>
                     </li>
                     <li>
-                        <a href="#tab4" data-toggle="tab">Eğitim Bilgileri</a>
+                        <a href="#tab4" data-toggle="tab">Eğitim Bil.</a>
                     </li>
 
                     <li>
-                        <a href="#tab5" data-toggle="tab">Adli İşlem Bilgileri</a>
+                        <a href="#tab5" data-toggle="tab">Adli İşlem Bil.</a>
+                    </li>
+                    <li>
+                        <a href="#tab6" data-toggle="tab">Sosyal Yardım Bil.</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                 @if (Model.SessionUser.IsGeneral)
                 {
-                    <div class="tab-pane" id="tab1">
+                    <div class="tab-pane active" id="tab1">
                         
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                             <label class="form-control_1">İşlemi Yapan Kurum</label>
@@ -229,7 +232,6 @@
                             <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                                 <label class="form-control_1"> Eğitim Durumu</label>
                                 <select class="form-control olmusmu" asp-for="Personal.EgitimDurumu.EgitimDurumuId" asp-items="@Model.EgitimDurumuList"></select>
-                                
                                 <span asp-validation-for="Personal.EgitimDurumu" class="help-block"></span>
                             </div>
                          
@@ -244,6 +246,14 @@
                             </div>
                         </div>
                                           
+                    <div class="tab-pane" id="tab6">
+
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <label class="form-control_1"> Sosyal Yardım Durumu</label>
+                            <select class="form-control olmusmu" asp-for="Personal.SosyalYardimDurumu.SosyalYardimDurumuId" asp-items="@Model.SosyalYardimDurumuList"></select>
+                            <span asp-validation-for="Personal.SosyalYardimDurumu" class="help-block"></span>
+                        </div>
+                    </div>
                                </div>
             </div>
             <div style="clear:both; height:60px;"></div>

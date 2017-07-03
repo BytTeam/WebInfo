@@ -60,8 +60,8 @@ namespace App.WebInfo.MVCUI.Controllers
             reportBoxs.Add(new HomeReporBoxModel
             {
                 Count = totalPersonalCount,
-                Title = "Toplam Yabancı Sayısı"+ userName,
-                SubTitle = "Yabancı Sayısı",
+                Title = "Toplam Yabancı Sayısı",
+                SubTitle = "Yabancı Sayısı Yüzde",
                 Icon = "icon-user",
                 Progress = 100
             });
@@ -73,8 +73,8 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 Count = egitimGorenCount,
                 Progress = (100 * egitimGorenCount) / totalPersonalCount,
-                Title = "Eğitim Gören Yapıncı Sayısı",
-                SubTitle = "Eğitim Gören",
+                Title = "Eğitim Gören",
+                SubTitle = "Eğitim Gören Yüzde",
                 Icon = "icon-user"
             });
 
@@ -84,8 +84,8 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 Count = kacakCount,
                 Progress = (100 * kacakCount) / totalPersonalCount,
-                Title = "Kaçakların Sayısı",
-                SubTitle = "Kaçak Sayısı",
+                Title = "Kaçak Sayısı",
+                SubTitle = "Kaçak Sayısı Yüzde",
                 Icon = "icon-info"
             });
             var model = new HomeViewModel
