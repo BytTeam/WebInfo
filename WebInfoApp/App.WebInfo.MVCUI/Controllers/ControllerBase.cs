@@ -14,7 +14,7 @@ namespace App.WebInfo.MVCUI.Controllers
     {
 
         public AlertUi alertUi { get; set; }
-        public virtual IHttpContextAccessor _httpContextAccessor { get; set; }
+        public virtual IHttpContextAccessor HttpContextAccessor { get; set; }
         public ControllerBase()
         {
 
@@ -28,7 +28,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public SessionUser GetLoginUser()
         {
-            return _httpContextAccessor.HttpContext.Session.GetObject<SessionUser>(AppConst.UserSessionName);
+            return HttpContextAccessor.HttpContext.Session.GetObject<SessionUser>(AppConst.UserSessionName);
         }
     }
 }

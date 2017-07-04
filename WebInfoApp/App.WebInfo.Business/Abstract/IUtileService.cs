@@ -17,5 +17,6 @@ namespace App.WebInfo.Business.Abstract
         Task<List<KanGrubu>> GetKanGrubus();
         Task<List<Uyruk>> GetUyruks();
         Task<List<SaglikDurumu>> GetSaglikDurumus();
+        Task<List<SosyalYardimDurumu>> GetSosyalYardimDurumus();
     }
 }

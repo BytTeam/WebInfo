@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using App.Core.Entites;
 
 namespace App.WebInfo.Entities.Concrete
 {
-    public class SosyalYardimDurumu
+    public class SosyalYardimDurumu : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

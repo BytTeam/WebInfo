@@ -70,5 +70,10 @@ namespace App.WebInfo.Business.Concrete
         {
             return await _utile.GetList<SaglikDurumu>();
         }
+
+        public async Task<List<SosyalYardimDurumu>> GetSosyalYardimDurumus()
+        {
+            return await _utile.GetList<SosyalYardimDurumu>();
+        }
     }
 }

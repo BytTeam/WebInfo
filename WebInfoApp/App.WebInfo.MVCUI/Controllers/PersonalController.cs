@@ -14,20 +14,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace App.WebInfo.MVCUI.Controllers
 {
     [Authorize]
     public class PersonalController : ControllerBase
     {
         private const string PersonalInculude = "Cinsiyet,Din,DogumYeri,EgitimDurumu,IkametDurumu,Il,Ilce,IslemYapan,KanGrubu,KayitDurumu,Koken,MedeniDurumu,SaglikDurumu,SosyalYardimDurumu,Uyruk";
-        private IMemoryCache _memoryCache;
+        private readonly IMemoryCache _memoryCache;
         private readonly IPersonalService _personal;
         private readonly IUtileService _utileService;
         private PersonalViewModel _model;
         private readonly IHostingEnvironment _environment;
-        public sealed override IHttpContextAccessor _httpContextAccessor { get; set; }
+        public sealed override IHttpContextAccessor HttpContextAccessor { get; set; }
+        private readonly object _personalCacheKey = "PersonalList_CacheKey";
 
         public PersonalController(IPersonalService personal, IUtileService utileService, IMemoryCache memoryCache, IHostingEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
@@ -35,11 +34,10 @@ namespace App.WebInfo.MVCUI.Controllers
             _utileService = utileService;
             _environment = environment;
             _memoryCache = memoryCache;
-            _httpContextAccessor = httpContextAccessor;
+            HttpContextAccessor = httpContextAccessor;
             _model = new PersonalViewModel { Personal = new Personal() };
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
             var model = new PersonalViewModel
@@ -49,14 +47,13 @@ namespace App.WebInfo.MVCUI.Controllers
             };
             return View(model);
         }
+
         [Authorize(Roles = "Admin,Create")]
         public async Task<IActionResult> Create()
         {
             await Bind();
             _model.Personal = new Personal();
             _model.SessionUser = GetLoginUser();
-
-
 
             return View(_model);
         }
@@ -74,7 +71,6 @@ namespace App.WebInfo.MVCUI.Controllers
                 return NotFound();
             }
 
-
             Personal personal = await _personal.Get(x => x.PersonalId == id, PersonalInculude);
 
             if (personal == null)
@@ -82,13 +78,11 @@ namespace App.WebInfo.MVCUI.Controllers
                 return NotFound();
             }
 
-
             await Bind();
             _model.Personal = personal;
 
             return View("Create", _model);
         }
-
 
         public async Task<ActionResult> Detail(long? id)
         {
@@ -98,14 +92,12 @@ namespace App.WebInfo.MVCUI.Controllers
                 return NotFound();
             }
 
-
             Personal personal = await _personal.Get(x => x.PersonalId == id, PersonalInculude);
 
             if (personal == null)
             {
                 return NotFound();
             }
-
 
             await Bind();
             _model.Personal = personal;
@@ -124,9 +116,9 @@ namespace App.WebInfo.MVCUI.Controllers
 
         private async Task Bind()
         {
-            var CacheKey = "Personal_cache_bind";
+            var cacheKey = "Personal_cache_bind";
             PersonalViewModel cacheModel;
-            if (!_memoryCache.TryGetValue(CacheKey, out cacheModel))
+            if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
             {
                 var cinsiyetTask = _utileService.GetCinsiyets();
                 var dinTask = _utileService.GetDins();
@@ -140,8 +132,9 @@ namespace App.WebInfo.MVCUI.Controllers
                 var uyrukTask = _utileService.GetUyruks();
                 var saglikDurumuTask = _utileService.GetSaglikDurumus();
                 var kangurubuTask = _utileService.GetKanGrubus();
+                var sosyalYardimTask = _utileService.GetSosyalYardimDurumus();
 
-                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask);
 
                 _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
                 _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
@@ -155,13 +148,15 @@ namespace App.WebInfo.MVCUI.Controllers
                 _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
                 _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
+                _model.SosyalYardimDurumuList=ConvertSelectList(sosyalYardimTask.Result.Select(x=>new{Id=x.SosyalYardimDurumuId,Value=x.SosyalYardimDurumuName}));
+
                 cacheModel = _model;
 
                 var opts = new MemoryCacheEntryOptions()
                 {
                     SlidingExpiration = TimeSpan.FromMinutes(30)
                 };
-                _memoryCache.Set(CacheKey, cacheModel, opts);
+                _memoryCache.Set(cacheKey, cacheModel, opts);
             }
             _model = cacheModel;
         }
@@ -204,6 +199,7 @@ namespace App.WebInfo.MVCUI.Controllers
                     if (updatePersonal.IsCompleted)
                     {
                         alertUi.AlertUiType = updatePersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
+                        CleaCache();
                     }
                 }
                 else
@@ -223,7 +219,9 @@ namespace App.WebInfo.MVCUI.Controllers
                     if (addPersonal.IsCompleted)
                     {
                         alertUi.AlertUiType = addPersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
+                        CleaCache();
                     }
+                   
                 }
 
                 AlertUiMessage();
@@ -237,6 +235,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
             return RedirectToAction("Index", model);
         }
+
         private string FileUpload(IFormFile imageFile)
         {
             var newFileName = string.Empty;
@@ -288,24 +287,13 @@ namespace App.WebInfo.MVCUI.Controllers
                           "</div>";
             return tmpl;
         }
+
         public async Task<JsonResult> GetList(int iDisplayStart, int iDisplayLength, string sSearch, int iColumns, int iSortingCols, int iSortCol_0, string sSortDir_0, int sEcho)
         {
-            //sSearch = sSearch.ToUpper();
-            object cacheKey = "PersonalList_CacheKey";
 
             List<Personal> cacheModel;
-            //if (_memoryCache.TryGetValue(cacheKey, out cacheModel))
-            //{
-            //    var lists = _personal.GetList(x => !x.IsDelete);
-            //    await lists;
-            //    cacheModel = lists.Result;
-            //    var opts = new MemoryCacheEntryOptions()
-            //   {
-            //      SlidingExpiration = TimeSpan.FromMinutes(30)
-            //    };
-            //    _memoryCache.Set(cacheKey, cacheModel, opts);
-            //}
-            if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
+
+            if (!_memoryCache.TryGetValue(_personalCacheKey, out cacheModel))
             {
                 var lists = _personal.GetList(x => !x.IsDelete);
                 await lists;
@@ -314,16 +302,9 @@ namespace App.WebInfo.MVCUI.Controllers
                 {
                     SlidingExpiration = TimeSpan.FromMinutes(5)
                 };
-                _memoryCache.Set(cacheKey, cacheModel, opts);
+                _memoryCache.Set(_personalCacheKey, cacheModel, opts);
             }
-            //var cacheEntry = await
-            //    _memoryCache.GetOrCreateAsync(cacheKey, entry =>
-            //    {
-            //        entry.SlidingExpiration = TimeSpan.FromSeconds(3);
-            //        var lists = _personal.GetList(x => !x.IsDelete);
-
-            //        return Task.FromResult(lists);
-            //    });
+           
 
             List<Personal> list = cacheModel;
 
@@ -341,16 +322,7 @@ namespace App.WebInfo.MVCUI.Controllers
                     }).Where(x => string.IsNullOrEmpty(sSearch) || x.Any(y => y.IndexOf(sSearch, StringComparison.CurrentCultureIgnoreCase) >= 0));
 
             var enumerable = filteredlist as string[][] ?? filteredlist.ToArray();
-            if (sSortDir_0 == "desc")
-            {
-                filteredlist = enumerable.OrderByDescending(x => (x[iSortCol_0]));
-
-                //.OrderByOrdinal(x => (x[iSortCol_0]).Parse(), sSortDir_0 == "desc")
-            }
-            else
-            {
-                filteredlist = enumerable.OrderBy(x => (x[iSortCol_0]));
-            }
+            filteredlist = sSortDir_0 == "desc" ? enumerable.OrderByDescending(x => (x[iSortCol_0])) : enumerable.OrderBy(x => (x[iSortCol_0]));
 
             filteredlist = filteredlist
                 .Skip(iDisplayStart)
@@ -365,6 +337,11 @@ namespace App.WebInfo.MVCUI.Controllers
                 sEcho = sEcho.ToString()
             };
             return Json(model);
+        }
+
+        public void CleaCache()
+        {
+            _memoryCache.Remove(_personalCacheKey);
         }
 
         public async Task<JsonResult> NewList(int iDisplayStart, int iDisplayLength, string sSearch, int iColumns, int iSortingCols, int iSortCol_0, string sSortDir_0, int sEcho)
@@ -403,16 +380,7 @@ namespace App.WebInfo.MVCUI.Controllers
                     }).Where(x => string.IsNullOrEmpty(sSearch) || x.Any(y => y.IndexOf(sSearch, StringComparison.CurrentCultureIgnoreCase) >= 0));
 
             var enumerable = filteredlist as string[][] ?? filteredlist.ToArray();
-            if (sSortDir_0 == "desc")
-            {
-                filteredlist = enumerable.OrderByDescending(x => (x[iSortCol_0]));
-
-                //.OrderByOrdinal(x => (x[iSortCol_0]).Parse(), sSortDir_0 == "desc")
-            }
-            else
-            {
-                filteredlist = enumerable.OrderBy(x => (x[iSortCol_0]));
-            }
+            filteredlist = sSortDir_0 == "desc" ? enumerable.OrderByDescending(x => (x[iSortCol_0])) : enumerable.OrderBy(x => (x[iSortCol_0]));
 
             filteredlist = filteredlist
                 .Skip(iDisplayStart)
@@ -428,7 +396,6 @@ namespace App.WebInfo.MVCUI.Controllers
             };
             return Json(model);
         }
-
 
         public async Task<JsonResult> Delete(long? id)
         {
@@ -446,6 +413,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 }
                 personal.IsDelete = true;
                 await _personal.Update(personal);
+                CleaCache();
             }
             catch (Exception)
             {

@@ -26,9 +26,7 @@ namespace App.WebInfo.MVCUI.Controllers
         {
             _personalService = personalService;
             _environment = environment;
-            _httpContextAccessor = httpContextAccessor;
-
-            
+            HttpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -51,10 +49,8 @@ namespace App.WebInfo.MVCUI.Controllers
                     sessionUser.IsPrivate = sessionUser.IsEducation =
                         sessionUser.IsCreate = sessionUser.IsDelete = true;
             }
-            _httpContextAccessor.HttpContext.Session.SetObject(AppConst.UserSessionName, sessionUser);
+            HttpContextAccessor.HttpContext.Session.SetObject(AppConst.UserSessionName, sessionUser);
 
-
-            var userName =User.Identity.Name;
             List<HomeReporBoxModel> reportBoxs = new List<HomeReporBoxModel>();
             long totalPersonalCount = await _personalService.Count(x => !x.IsDelete);
             reportBoxs.Add(new HomeReporBoxModel
@@ -100,13 +96,13 @@ namespace App.WebInfo.MVCUI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ImportFile()
+        private IActionResult ImportFile()
         {
             return View(new ImportModel() { Personals = new List<Personal>() });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ImportFile(IFormFile importFile)
+        private IActionResult ImportFile(IFormFile importFile)
         {
             List<Personal> personals = new List<Personal>();
             string newFileName = FileUpload(importFile);
@@ -165,11 +161,13 @@ namespace App.WebInfo.MVCUI.Controllers
             }
             return check.ToString();
         }
+
         public async Task<bool> AddPersonal(Personal item)
         {
             await _personalService.Add(item);
             return true;
         }
+
         private string FileUpload(IFormFile imageFile)
         {
             var newFileName = string.Empty;
