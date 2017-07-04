@@ -208,6 +208,11 @@
                             <input class="form-control olmusmu" asp-for="Personal.KonteynerNo" asp-items="@Model.Personal.KonteynerNo"></input>
                             <span asp-validation-for="Personal.KonteynerNo" class="help-block"></span>
                         </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <label for="form_control_1">Açık İkamet Adresi</label>
+                            <textarea class="form-control olmusmu" asp-for="Personal.AcikAdres" asp-items="@Model.Personal.AcikAdres"></textarea>
+                            <span asp-validation-for="Personal.AcikAdres" class="help-block"></span>
+                        </div>
                     </div>
                     <div class="tab-pane" id="tab3">
 
@@ -216,7 +221,6 @@
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                             <label class="form-control_1"> Sağlık Durumu</label>
                             <select class="form-control olmusmu" asp-for="Personal.SaglikDurumu.SaglikDurumuId" asp-items="@Model.SaglikDurumuList"></select>
-                            
                             <span asp-validation-for="Personal.SaglikDurumu" class="help-block"></span>
                         </div>
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
@@ -224,6 +228,18 @@
                             <select class="form-control olmusmu" asp-for="Personal.KanGrubu.KanGrubuId" asp-items="@Model.KanGrubuList"></select>
                             <span asp-validation-for="Personal.KanGrubu" class="help-block"></span>
                         </div>
+
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <label class="form-control_1">Bedeni</label>
+                            <input class="form-control olmusmu" asp-for="Personal.Bedeni" asp-items="@Model.Personal.Bedeni"></input>
+                            <span asp-validation-for="Personal.Bedeni" class="help-block"></span>
+                        </div>
+                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                            <label class="form-control_1">Ayakkabı Numarası</label>
+                            <input class="form-control olmusmu" asp-for="Personal.AyakkabiNo" asp-items="@Model.Personal.AyakkabiNo"></input>
+                            <span asp-validation-for="Personal.AyakkabiNo" class="help-block"></span>
+                        </div>
+
                     </div>
 
      

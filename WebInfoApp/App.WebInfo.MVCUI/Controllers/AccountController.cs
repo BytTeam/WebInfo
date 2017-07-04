@@ -91,7 +91,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 if (result.Succeeded)
                 {
                     
-                    return LocalRedirect(returnUrl);   
+                    return LocalRedirect("/");   
                 }
 
                 ModelState.AddModelError("", "Invalid login!");

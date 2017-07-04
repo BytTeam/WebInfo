@@ -9,9 +9,10 @@ using App.WebInfo.Entities.Concrete;
 namespace App.WebInfo.DataAccess.Migrations
 {
     [DbContext(typeof(WebInfoContext))]
-    partial class WebInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20170704140359_Cemq01")]
+    partial class Cemq01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
