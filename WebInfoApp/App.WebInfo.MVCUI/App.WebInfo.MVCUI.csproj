@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\assets\pages\scripts\PersonalPage.js" />
     <Content Include="wwwroot\assets\pages\scripts\table-datatables-managed.js" />
   </ItemGroup>
   <ItemGroup>
