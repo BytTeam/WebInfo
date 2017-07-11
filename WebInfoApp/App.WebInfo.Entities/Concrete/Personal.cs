@@ -102,12 +102,16 @@ namespace App.WebInfo.Entities.Concrete
 
         public virtual KanGrubu KanGrubu { get; set; }
 
-        public int Bedeni { get; set; }
+        public string Bedeni { get; set; }
 
         public int AyakkabiNo { get; set; }
 
         [MaxLength(500)]
         public string AdliIslemDurumu { get; set; }
+        [MaxLength(500)]
+        public string AcikAdres { get; set; }
+
+
 
         [MaxLength(120)]
         public string PersonalImage { get; set; }
