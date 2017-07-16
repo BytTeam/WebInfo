@@ -80,7 +80,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
             await Bind();
             _model.Personal = personal;
-
+            _model.SessionUser = GetLoginUser();
             return View("Create", _model);
         }
 
@@ -263,7 +263,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public string Buttons(long id, bool state)
         {
-            string tmpl = "<div class=\"btn-group\">" +
+            string tmpl = "<div class=\"btn-group btn-relative\">" +
                           "<button class=\"btn btn-xs green dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\" aria-expanded=\"false\">" +
                           "İşlemler<i class=\"fa fa-angle-down\"></i>" +
                           "</button>" +

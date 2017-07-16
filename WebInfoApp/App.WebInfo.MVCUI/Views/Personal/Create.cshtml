@@ -8,276 +8,304 @@
     ViewBag.SubDescription = "Yabancı Listesi";
 }
 <div class="portlet light bordered">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class=" icon-layers font-red"></i>
-            <span class="caption-subject font-red sbold uppercase">Personel Ekle</span>
-        </div>
-        <div class="actions">
-            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                <i class="icon-cloud-upload"></i>
-            </a>
-            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                <i class="icon-wrench"></i>
-            </a>
-            <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                <i class="icon-trash"></i>
-            </a>
-        </div>
+<div class="portlet-title">
+    <div class="caption">
+        <i class=" icon-layers font-red"></i>
+        <span class="caption-subject font-red sbold uppercase">Personel Ekle</span>
     </div>
-    <div class="portlet-body">
-        <form asp-controller="Personal" asp-action="Create" method="post" enctype="multipart/form-data">
-            <input type="hidden" asp-for="Personal.PersonalId" />
-            <input type="hidden" asp-for="Personal.CreationDate" />
-            <input type="hidden" asp-for="Personal.CreatedBy" />
-            @Html.AntiForgeryToken()
+    <div class="actions">
+        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+            <i class="icon-cloud-upload"></i>
+        </a>
+        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+            <i class="icon-wrench"></i>
+        </a>
+        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+            <i class="icon-trash"></i>
+        </a>
+    </div>
+</div>
+<div class="portlet-body">
+<form asp-controller="Personal" asp-action="Create" method="post" enctype="multipart/form-data">
+<input type="hidden" asp-for="Personal.PersonalId" />
+<input type="hidden" asp-for="Personal.CreationDate" />
+<input type="hidden" asp-for="Personal.CreatedBy" />
+@Html.AntiForgeryToken()
 
 
-            <div class="tabbable tabbable-tabdrop">
-                <ul class="nav nav-tabs">
-                    @if (Model.SessionUser.IsGeneral) { 
-                        <li class="active">
-                            <a href="#tab1"  data-toggle="tab">Genel Nüfus Bil.</a>
-                        </li>
-                    }
-                    <li>
-                        <a href="#tab2" data-toggle="tab">Adres Bil.</a>
-                    </li>
-                    <li>
-                    <li>
-                        <a href="#tab3" data-toggle="tab">Sağlık BBil.</a>
-                    </li>
-                    <li>
-                        <a href="#tab4" data-toggle="tab">Eğitim Bil.</a>
-                    </li>
+<div class="tabbable tabbable-tabdrop">
+<ul class="nav nav-tabs">
+    @if (Model.SessionUser.IsGeneral) { 
+        <li class="active">
+            <a href="#tab1"  data-toggle="tab">Genel Nüfus Bil.</a>
+        </li>
+    }
+    <li>
+        <a href="#tab2" data-toggle="tab">Adres Bil.</a>
+    </li>
+    <li>
+    <li>
+        <a href="#tab3" data-toggle="tab">Sağlık BBil.</a>
+    </li>
+    <li>
+        <a href="#tab4" data-toggle="tab">Eğitim Bil.</a>
+    </li>
 
-                    <li>
-                        <a href="#tab5" data-toggle="tab">Adli İşlem Bil.</a>
-                    </li>
-                    <li>
-                        <a href="#tab6" data-toggle="tab">Sosyal Yardım Bil.</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                @if (Model.SessionUser.IsGeneral)
-                {
-                    <div class="tab-pane active" id="tab1">
+    <li>
+        <a href="#tab5" data-toggle="tab">Adli İşlem Bil.</a>
+    </li>
+    <li>
+        <a href="#tab6" data-toggle="tab">Sosyal Yardım Bil.</a>
+    </li>
+</ul>
+<div class="tab-content">
+@if (Model.SessionUser.IsGeneral)
+{
+    <div class="tab-pane active" id="tab1">
                         
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1">İşlemi Yapan Kurum</label>
-                            <select class="form-control olmusmu" asp-for="Personal.IslemYapan.IslemYapanId" asp-items="@Model.IslemYapanList"></select>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label class="form-control_1">İşlemi Yapan Kurum</label>
+            <select class="form-control olmusmu" asp-for="Personal.IslemYapan.IslemYapanId" asp-items="@Model.IslemYapanList"></select>
                             
-                            <span asp-validation-for="Personal.IslemYapan" class="help-block"></span>
-                        </div>
+            <span asp-validation-for="Personal.IslemYapan" class="help-block"></span>
+        </div>
 
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.Adi" for="form_control_1"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.Adi" id="form_control_1">
-                            <span asp-validation-for="Personal.Adi" class="help-block"></span>
-                        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.Adi" for="form_control_1"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.Adi" id="form_control_1">
+            <span asp-validation-for="Personal.Adi" class="help-block"></span>
+        </div>
 
 
 
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.Soyadi" for="form_control_2"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.Soyadi" id="form_control_2">
-                            <span asp-validation-for="Personal.Soyadi" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.Telefon" for="form_control_2"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.Telefon" id="form_control_2">
-                            <span asp-validation-for="Personal.Telefon" class="help-block"></span>
-                        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.Soyadi" for="form_control_2"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.Soyadi" id="form_control_2">
+            <span asp-validation-for="Personal.Soyadi" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.Telefon" for="form_control_2"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.Telefon" id="form_control_2">
+            <span asp-validation-for="Personal.Telefon" class="help-block"></span>
+        </div>
 
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.AnaAdi" for="form_control_3"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.AnaAdi" id="form_control_3">
-                            <span asp-validation-for="Personal.AnaAdi" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.BabaAdi" for="form_control_4"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.BabaAdi" id="form_control_4">
-                            <span asp-validation-for="Personal.BabaAdi" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.AileNo" for="form_control_5"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.AileNo" id="form_control_5">
-                            <span asp-validation-for="Personal.AileNo" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.SahisNo"></label>
-                            <input type="text" class="form-control olmusmu" asp-for="Personal.SahisNo" id="form_control_6">
-                            <span asp-validation-for="Personal.SahisNo" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.Cinsiyet"></label>
-                            <select class="form-control olmusmu" asp-for="Personal.Cinsiyet.CinsiyeId" asp-items="@Model.CinsiyetList"></select>
-                            <span asp-validation-for="Personal.Cinsiyet" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.Din"></label>
-                            <select class="form-control olmusmu" asp-for="Personal.Din.DinId" asp-items="@Model.DinList"></select>
-                            <span asp-validation-for="Personal.Din" class="help-block"></span>
-                        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.AnaAdi" for="form_control_3"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.AnaAdi" id="form_control_3">
+            <span asp-validation-for="Personal.AnaAdi" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.BabaAdi" for="form_control_4"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.BabaAdi" id="form_control_4">
+            <span asp-validation-for="Personal.BabaAdi" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.AileNo" for="form_control_5"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.AileNo" id="form_control_5">
+            <span asp-validation-for="Personal.AileNo" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.SahisNo"></label>
+            <input type="text" class="form-control olmusmu" asp-for="Personal.SahisNo" id="form_control_6">
+            <span asp-validation-for="Personal.SahisNo" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.Cinsiyet"></label>
+            <select class="form-control olmusmu" asp-for="Personal.Cinsiyet.CinsiyeId" asp-items="@Model.CinsiyetList"></select>
+            <span asp-validation-for="Personal.Cinsiyet" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.Din"></label>
+            <select class="form-control olmusmu" asp-for="Personal.Din.DinId" asp-items="@Model.DinList"></select>
+            <span asp-validation-for="Personal.Din" class="help-block"></span>
+        </div>
 
-                        <div class="form-group form-md-line-input form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.DogumTarihi"></label>
+        <div class="form-group form-md-line-input form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.DogumTarihi"></label>
 
-                            <input class="form-control form-control-inline date-picker olmusmu" asp-for="Personal.DogumTarihi" asp-items="@Model.Personal.DogumTarihi" size="16" type="text" value="">
-                            <span asp-validation-for="Personal.Din" class="help-block"></span>
+            <input class="form-control form-control-inline date-picker olmusmu" asp-for="Personal.DogumTarihi" asp-items="@Model.Personal.DogumTarihi" size="16" type="text" value="">
+            <span asp-validation-for="Personal.Din" class="help-block"></span>
 
-                        </div>
+        </div>
 
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.DogumYeri"></label>
-                            <select class="form-control olmusmu" asp-for="Personal.DogumYeri.DogumYeriId" asp-items="@Model.DogumYeriList"></select>
-                            <span asp-validation-for="Personal.DogumYeri" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1"> Uyruk</label>
-                            <select class="form-control olmusmu" asp-for="Personal.Uyruk.UyrukId" asp-items="@Model.UyrukList"></select>
-                            <span asp-validation-for="Personal.Uyruk" class="help-block"></span>
-                        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label asp-for="Personal.DogumYeri"></label>
+            <select class="form-control olmusmu" asp-for="Personal.DogumYeri.DogumYeriId" asp-items="@Model.DogumYeriList"></select>
+            <span asp-validation-for="Personal.DogumYeri" class="help-block"></span>
+        </div>
+        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+            <label class="form-control_1"> Uyruk</label>
+            <select class="form-control olmusmu" asp-for="Personal.Uyruk.UyrukId" asp-items="@Model.UyrukList"></select>
+            <span asp-validation-for="Personal.Uyruk" class="help-block"></span>
+        </div>
                         
-                        <div style="clear: both; height: 30px;"></div>
-                        <div class="form-group form-md-line-input  form-md-floating-label clearfix">
-                            <div class="col-xs-12 col-sm-2 col-md-2 text-center">
-                                <img src="@Model.Personal.PersonalImage" style="max-width: 150px; border-radius: 50%"/>
-                            </div>
-                            <div class="col-xs-12 col-sm-10 col-md-10">
-                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                    <div class="input-group input-large">
-                                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
-                                            <i class="fa fa-file-o fileinput-exists"></i>
-                                            <span class="fileinput-filename"> </span>
-                                        </div>
-
-                                        <span class="input-group-addon btn default btn-file">
-                                            <span class="fileinput-new"> Resim Seç </span>
-                                            <span class="fileinput-exists"> Değiştir </span>
-                                            <input type="file" accept="*/.jpg" name="personalImage" asp-for="Personal.PersonalImage"/>
-                                        </span>
-                                        <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Kaldır </a>
-                                    </div>
-                                </div>
-                            </div>
+        <div style="clear: both; height: 30px;"></div>
+        <div class="form-group form-md-line-input  form-md-floating-label clearfix">
+            <div class="col-xs-12 col-sm-2 col-md-2 text-center">
+                <img src="@Model.Personal.PersonalImage" style="max-width: 150px; border-radius: 50%"/>
+            </div>
+            <div class="col-xs-12 col-sm-10 col-md-10">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="input-group input-large">
+                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                            <i class="fa fa-file-o fileinput-exists"></i>
+                            <span class="fileinput-filename"> </span>
                         </div>
 
+                        <span class="input-group-addon btn default btn-file">
+                            <span class="fileinput-new"> Resim Seç </span>
+                            <span class="fileinput-exists"> Değiştir </span>
+                            <input type="file" accept="*/.jpg" name="personalImage" asp-for="Personal.PersonalImage"/>
+                        </span>
+                        <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Kaldır </a>
                     </div>
-                }
-                    <div class="tab-pane" id="tab2">
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<div class="tab-pane" id="tab2">
 
 
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Kayıtlı Olduğu İl Adı</label>
-                            <select class="form-control olmusmu" asp-for="Personal.Il.IlId" asp-items="@Model.IlList"></select>
-                              <span asp-validation-for="Personal.Il" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1"> Kayıtlı Olduğu İlçe Adı</label>
-                            <select class="form-control olmusmu" asp-for="Personal.Ilce.IlceId" asp-items="@Model.IlceList"></select>
-                            <span asp-validation-for="Personal.Ilce" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">İkamet Durumu</label>
-                            <select class="form-control olmusmu" asp-for="Personal.IkametDurumu.IkametDurumuId" asp-items="@Model.IkametDurumuList"></select>
-                            <span asp-validation-for="Personal.IkametDurumu" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Bulunduğu Kamp Adı</label>
-                            <input class="form-control olmusmu" asp-for="Personal.KampAdi" asp-items="@Model.Personal.KampAdi"></input>
-                            <span asp-validation-for="Personal.KampAdi" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Bulunduğu Kamp İli</label>
-                            <select class="form-control olmusmu" asp-for="Personal.KampIl.IlName" asp-items="@Model.IlList"></select>
-                            <span asp-validation-for="Personal.KampIl.IlName" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Bulunduğu Kamp Bölgesi</label>
-                            <select class="form-control olmusmu" asp-for="Personal.KampBolgesi.IlceName" asp-items="@Model.IlceList"></select>
-                            <span asp-validation-for="Personal.KampBolgesi.IlceName" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Bulunduğu Kamp Mahellesi</label>
-                            <input class="form-control olmusmu" asp-for="Personal.KampMahallesi" asp-items="@Model.Personal.KampMahallesi"></input>
-                            <span asp-validation-for="Personal.KampMahallesi" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Bulunduğu Konteyner No</label>
-                            <input class="form-control olmusmu" asp-for="Personal.KonteynerNo" asp-items="@Model.Personal.KonteynerNo"></input>
-                            <span asp-validation-for="Personal.KonteynerNo" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label for="form_control_1">Açık İkamet Adresi</label>
-                            <textarea class="form-control olmusmu" asp-for="Personal.AcikAdres" asp-items="@Model.Personal.AcikAdres"></textarea>
-                            <span asp-validation-for="Personal.AcikAdres" class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab3">
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Kayıtlı Olduğu İl Adı</label>
+        <select class="form-control olmusmu" asp-for="Personal.Il.IlId" asp-items="@Model.IlList"></select>
+        <span asp-validation-for="Personal.Il" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1"> Kayıtlı Olduğu İlçe Adı</label>
+        <select class="form-control olmusmu" asp-for="Personal.Ilce.IlceId" asp-items="@Model.IlceList"></select>
+        <span asp-validation-for="Personal.Ilce" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">İkamet Durumu</label>
+        <select class="form-control olmusmu" asp-for="Personal.IkametDurumu.IkametDurumuId" asp-items="@Model.IkametDurumuList"></select>
+        <span asp-validation-for="Personal.IkametDurumu" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Bulunduğu Kamp Adı</label>
+        <input class="form-control olmusmu" asp-for="Personal.KampAdi" asp-items="@Model.Personal.KampAdi"></input>
+        <span asp-validation-for="Personal.KampAdi" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Bulunduğu Kamp İli</label>
+        <select class="form-control olmusmu" asp-for="Personal.KampIl.IlName" asp-items="@Model.IlList"></select>
+        <span asp-validation-for="Personal.KampIl.IlName" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Bulunduğu Kamp Bölgesi</label>
+        <select class="form-control olmusmu" asp-for="Personal.KampBolgesi.IlceName" asp-items="@Model.IlceList"></select>
+        <span asp-validation-for="Personal.KampBolgesi.IlceName" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Bulunduğu Kamp Mahellesi</label>
+        <input class="form-control olmusmu" asp-for="Personal.KampMahallesi" asp-items="@Model.Personal.KampMahallesi"></input>
+        <span asp-validation-for="Personal.KampMahallesi" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Bulunduğu Konteyner No</label>
+        <input class="form-control olmusmu" asp-for="Personal.KonteynerNo" asp-items="@Model.Personal.KonteynerNo"></input>
+        <span asp-validation-for="Personal.KonteynerNo" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label for="form_control_1">Açık İkamet Adresi</label>
+        <textarea class="form-control olmusmu" asp-for="Personal.AcikAdres" asp-items="@Model.Personal.AcikAdres"></textarea>
+        <span asp-validation-for="Personal.AcikAdres" class="help-block"></span>
+    </div>
+</div>
+<div class="tab-pane" id="tab3">
 
                       
                       
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1"> Sağlık Durumu</label>
-                            <select class="form-control olmusmu" asp-for="Personal.SaglikDurumu.SaglikDurumuId" asp-items="@Model.SaglikDurumuList"></select>
-                            <span asp-validation-for="Personal.SaglikDurumu" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1">Kan Grubu</label>
-                            <select class="form-control olmusmu" asp-for="Personal.KanGrubu.KanGrubuId" asp-items="@Model.KanGrubuList"></select>
-                            <span asp-validation-for="Personal.KanGrubu" class="help-block"></span>
-                        </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Sağlık Durumu</label>
+        <select class="form-control olmusmu inputArea" data-prex="saglik" asp-for="Personal.SaglikDurumu.SaglikDurumuId" asp-items="@Model.SaglikDurumuList"></select>
+        <span asp-validation-for="Personal.SaglikDurumu" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input hidden form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Sağlık Durumu Açıklama</label>
+        <textarea asp-for="Personal.SaglikDurumuAciklama" data-idfor="saglik2,saglik3" class="form-control"></textarea>
+        <span asp-validation-for="Personal.SaglikDurumuAciklama" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1">Kan Grubu</label>
+        <select class="form-control olmusmu" asp-for="Personal.KanGrubu.KanGrubuId" asp-items="@Model.KanGrubuList"></select>
+        <span asp-validation-for="Personal.KanGrubu" class="help-block"></span>
+    </div>
 
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1">Bedeni</label>
-                            <input class="form-control olmusmu" asp-for="Personal.Bedeni" asp-items="@Model.Personal.Bedeni"></input>
-                            <span asp-validation-for="Personal.Bedeni" class="help-block"></span>
-                        </div>
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1">Ayakkabı Numarası</label>
-                            <input class="form-control olmusmu" asp-for="Personal.AyakkabiNo" asp-items="@Model.Personal.AyakkabiNo"></input>
-                            <span asp-validation-for="Personal.AyakkabiNo" class="help-block"></span>
-                        </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1">Bedeni</label>
+        <input class="form-control olmusmu" asp-for="Personal.Bedeni" asp-items="@Model.Personal.Bedeni"></input>
+        <span asp-validation-for="Personal.Bedeni" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1">Ayakkabı Numarası</label>
+        <input class="form-control olmusmu" asp-for="Personal.AyakkabiNo" asp-items="@Model.Personal.AyakkabiNo"></input>
+        <span asp-validation-for="Personal.AyakkabiNo" class="help-block"></span>
+    </div>
 
-                    </div>
+</div>
 
      
 
-                        <div class="tab-pane" id="tab4">
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <label class="form-control_1"> Eğitim Durumu</label>
-                                <select class="form-control olmusmu" asp-for="Personal.EgitimDurumu.EgitimDurumuId" asp-items="@Model.EgitimDurumuList"></select>
-                                <span asp-validation-for="Personal.EgitimDurumu" class="help-block"></span>
-                            </div>
+<div class="tab-pane" id="tab4">
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Eğitim Durumu</label>
+        <select class="form-control olmusmu inputArea" data-prex="egitim" asp-for="Personal.EgitimDurumu.EgitimDurumuId" asp-items="@Model.EgitimDurumuList"></select>
+        <span asp-validation-for="Personal.EgitimDurumu" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input hidden  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Okulu</label>
+        <textarea asp-for="Personal.Okul" data-idfor="egitim2" class="form-control"></textarea>
+        <span asp-validation-for="Personal.Okul" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input hidden  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Sınıfı</label>
+        <textarea asp-for="Personal.Sinif" data-idfor="egitim2" class="form-control"></textarea>
+        <span asp-validation-for="Personal.Sinif" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input hidden  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Mesleği</label>
+        <textarea asp-for="Personal.Meslegi" data-idfor="egitim3"></textarea>
+        <span asp-validation-for="Personal.Meslegi" class="help-block"></span>
+    </div>
                          
-                                                </div>
+</div>
 
 
-                        <div class="tab-pane" id="tab5">
-                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                                <label class="form-control_1">Adli İşlem Durumu</label>
-                                <textarea style="min-width:400px; min-height:100px;" class="form-control olmusmu" asp-for="Personal.AdliIslemDurumu" asp-items="@Model.Personal.AdliIslemDurumu"></textarea>
-                                <span asp-validation-for="Personal.AdliIslemDurumu" class="help-block"></span>
-                            </div>
-                        </div>
-                                          
-                    <div class="tab-pane" id="tab6">
-
-                        <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label class="form-control_1"> Sosyal Yardım Durumu</label>
-                            <select class="form-control olmusmu" asp-for="Personal.SosyalYardimDurumu.SosyalYardimDurumuId" asp-items="@Model.SosyalYardimDurumuList"></select>
-                            <span asp-validation-for="Personal.SosyalYardimDurumu" class="help-block"></span>
-                        </div>
-                    </div>
-                               </div>
-            </div>
-            <div style="clear:both; height:60px;"></div>
-            <div class="form-actions noborder">
-                <button type="submit" class="btn blue">KAYDET</button>
-            </div>
-
-        </form>
-
+<div class="tab-pane" id="tab5">
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1">Adli İşlem Durumu</label>
+        <textarea style="min-width:400px; min-height:100px;" class="form-control olmusmu" asp-for="Personal.AdliIslemDurumu" asp-items="@Model.Personal.AdliIslemDurumu"></textarea>
+        <span asp-validation-for="Personal.AdliIslemDurumu" class="help-block"></span>
     </div>
 </div>
+                                          
+<div class="tab-pane" id="tab6">
+
+    <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Sosyal Yardım Durumu</label>
+        <select class="form-control olmusmu inputArea" data-prex="sosyal" asp-for="Personal.SosyalYardimDurumu.SosyalYardimDurumuId" asp-items="@Model.SosyalYardimDurumuList"></select>
+        <span asp-validation-for="Personal.SosyalYardimDurumu" class="help-block"></span>
+    </div>
+    <div class="form-group form-md-line-input  hidden form-md-floating-label bizedemi-col-2">
+        <label class="form-control_1"> Sosyal Yardım Durumu Açıklama</label>
+        <textarea class="form-control" data-idfor="sosyal2" asp-for="Personal.SosyalYardimAciklama"></textarea>
+        <span asp-validation-for="Personal.SosyalYardimAciklama" class="help-block"></span>
+    </div>
+</div>
+</div>
+</div>
+<div style="clear:both; height:60px;"></div>
+<div class="form-actions noborder">
+    <button type="submit" class="btn blue">KAYDET</button>
+</div>
+
+</form>
+
+</div>
+</div>
+@section Scripts{
+    <script src="~/assets/pages/scripts/personalPage.js" type="text/javascript"></script>
+}

@@ -33,42 +33,130 @@ namespace App.WebInfo.MVCUI.Controllers
         {
             RegisterViewModel model = new RegisterViewModel
             {
-                RoleList = new SelectList(_userRoleManager.GetRoles().Where(x=>!x.Name.Equals("Admin"))
-                    .Select(x => new {Id = x.Name, Value = x.Name}), "Id", "Value")
+
+                RoleList = new SelectList(_userRoleManager.GetRoles().Where(x => !x.Name.Equals("Admin"))
+                    .Select(x => new { Id = x.Name, Value = x.Name }), "Id", "Value")
             };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterViewModel registerViewModel)
+        public async Task<ActionResult> Register(RegisterViewModel registerViewModel)
         {
+            if (!string.IsNullOrEmpty(registerViewModel.Id))
+            {
+                if (string.IsNullOrEmpty(registerViewModel.Password))
+                {
+                    registerViewModel.Password = "Emty";
+                }
+            }
             if (ModelState.IsValid)
             {
-                CustomIdentityUser user = new CustomIdentityUser
-                {
-                    UserName = registerViewModel.UserName,
-                    Email = registerViewModel.Email
-                };
 
-                IdentityResult result =
-                    _userManager.CreateAsync(user, registerViewModel.Password).Result;
-
-                if (result.Succeeded)
+                IdentityResult result;
+                IdentityResult passwordResult;
+                CustomIdentityUser user;
+                if (registerViewModel.Id != "")
                 {
-                   // string[] roleSplit = registerViewModel.Roles.Split(',');
+                    user = _userManager.FindByNameAsync(registerViewModel.UserName).Result;
+
+                    user.Email = registerViewModel.Email;
+                    result =
+                        _userManager.UpdateAsync(user).Result;
+                    if (registerViewModel.Password != "Emty")
+                    {
+                        string tokenAsync = _userManager.GeneratePasswordResetTokenAsync(user).Result;
+                        passwordResult = _userManager.ResetPasswordAsync(user, tokenAsync, registerViewModel.Password)
+                            .Result;
+                    }
+                    else
+                    {
+                        passwordResult = result;
+                    }
+                }
+                else
+                {
+                    user = new CustomIdentityUser
+                    {
+                        UserName = registerViewModel.UserName,
+                        Email = registerViewModel.Email
+                    };
+                    result = _userManager.CreateAsync(user, registerViewModel.Password).Result;
+                    passwordResult = result;
+                }
+                if (result.Succeeded && passwordResult.Succeeded)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    if (userRoles != null)
+                    {
+                        _userManager.RemoveFromRolesAsync(user, userRoles).Wait();
+                    }
+                    // string[] roleSplit = registerViewModel.Roles.Split(',');
                     foreach (string rol in registerViewModel.Roles)
                     {
+                        if (registerViewModel.Id != "")
+                        {
+                            _userManager.RemoveFromRoleAsync(user, rol).Wait();
+                        }
                         _userManager.AddToRoleAsync(user, rol).Wait();
+
                     }
-                    
-                    return RedirectToAction("Login", "Account");
+
+                    return RedirectToAction("List");
                 }
             }
 
             return View(registerViewModel);
         }
 
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _userManager.FindByNameAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            return View("Register", new RegisterViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                CurrentPassword = user.PasswordHash,
+                Email = user.Email,
+                Roles = userRoles.ToArray(),
+                RoleList = new SelectList(_userRoleManager.GetRoles().Where(x => !x.Name.Equals("Admin"))
+                    .Select(x => new { Id = x.Name, Value = x.Name }), "Id", "Value")
+            });
+
+        }
+        public async Task<JsonResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return Json(new { isSuccess = false });
+            }
+
+            var user = await _userManager.FindByNameAsync(id);
+            if (user == null)
+            {
+                return Json(new { isSuccess = false });
+            }
+            IdentityResult result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return Json(new { isSuccess = false });
+            }
+
+            return Json(new { isSuccess = true });
+        }
         public ActionResult Login()
         {
             LoginViewModel model = new LoginViewModel
@@ -81,7 +169,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel loginViewModel, string returnUrl="/")
+        public ActionResult Login(LoginViewModel loginViewModel, string returnUrl = "/")
         {
             if (ModelState.IsValid)
             {
@@ -90,8 +178,8 @@ namespace App.WebInfo.MVCUI.Controllers
 
                 if (result.Succeeded)
                 {
-                    
-                    return LocalRedirect("/");   
+
+                    return LocalRedirect("/");
                 }
 
                 ModelState.AddModelError("", "Invalid login!");
@@ -99,7 +187,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
             return View(loginViewModel);
         }
-        
+
         public ActionResult LogOff()
         {
             _signInManager.SignOutAsync().Wait();
@@ -110,7 +198,13 @@ namespace App.WebInfo.MVCUI.Controllers
         public async Task<IActionResult> List()
         {
             List<CustomIdentityUser> userList = await _userManager.Users.ToListAsync();
-            return View(userList);
+            List<UserListViewModel> model = userList.Select(x => new UserListViewModel()
+            {
+                UserName = x.UserName,
+                UserRoles = _userManager.GetRolesAsync(x).Result.ToList()
+            }).ToList();
+
+            return View(model);
         }
 
         public async Task<IActionResult> Role()
