@@ -64,5 +64,6 @@ namespace App.WebInfo.Entities.Concrete
         Check,
         List,
         Users
+        
     }
 }
