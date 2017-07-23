@@ -36,6 +36,7 @@
     <ProjectReference Include="..\App.WebInfo.Entities\App.WebInfo.Entities.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Report\" />
     <Folder Include="wwwroot\uploads\personalImage\" />
   </ItemGroup>
   <ItemGroup>

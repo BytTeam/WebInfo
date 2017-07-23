@@ -96,13 +96,13 @@ namespace App.WebInfo.MVCUI.Controllers
             return View();
         }
 
-        private IActionResult ImportFile()
+        public IActionResult ImportFile()
         {
             return View(new ImportModel() { Personals = new List<Personal>() });
         }
 
         [HttpPost]
-        private IActionResult ImportFile(IFormFile importFile)
+        public IActionResult ImportFile(IFormFile importFile)
         {
             List<Personal> personals = new List<Personal>();
             string newFileName = FileUpload(importFile);

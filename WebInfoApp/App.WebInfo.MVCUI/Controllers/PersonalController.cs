@@ -270,7 +270,7 @@ namespace App.WebInfo.MVCUI.Controllers
                           "<ul class=\"dropdown-menu\" role=\"menu\">" +
                           "<li>" +
                           "<a href=\"" + Url.Action("Detail", "Personal", new { Id = id }) + "\">" +
-                          "<i class=\"icon-docs\"></i> Detay" +
+                          "<i class=\"icon-energy\"></i> Detay" +
                           "</a>" +
                           "</li>" +
                           "<li>" +
