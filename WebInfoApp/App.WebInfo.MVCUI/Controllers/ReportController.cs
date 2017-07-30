@@ -4,11 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using App.WebInfo.Business.Abstract;
+using App.WebInfo.DataAccess.Concrete.EntityFramework;
 using App.WebInfo.Entities.Concrete;
 using App.WebInfo.MVCUI.Helpers;
 using App.WebInfo.MVCUI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace App.WebInfo.MVCUI.Controllers
@@ -73,29 +75,42 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public async Task<JsonResult> GetList(int iDisplayStart, int iDisplayLength, string sSearch, int iColumns, int iSortingCols, int iSortCol_0, string sSortDir_0, int sEcho)
         {
-
-            List<Personal> lists = await _personalService.GetList(x => !x.IsDelete, PersonalInculude);
-          
+            var sql = "select * from Personal where isDelete==false";
+            var where = string.Empty;
             string isFiltered = _httpContextAccessor.HttpContext.Session.GetString("IsFiltered");
+
+            List<Personal> personalList;
 
             if (isFiltered == "true")
             {
+
+
                 var paramx = _httpContextAccessor.HttpContext.Session.GetObject<ReportViewModel>("param");
                 var param = paramx.Filter;
+
+
                 if (param.Cinsiyet.CinsiyeId != -1)
                 {
-                    var filter1 = lists.ToList().Where(x => x.Cinsiyet.CinsiyeId == param.Cinsiyet.CinsiyeId).ToList();
+                    where += String.Format(" and CinsityeId={0}", param.Cinsiyet.CinsiyeId);
                 }
 
-                if (param.SosyalYardimDurumu.SosyalYardimDurumuId != -1)
+
+                if (param.Din.DinId != -1)
                 {
-                    lists = lists.Where(x => x.SosyalYardimDurumu.SosyalYardimDurumuId ==
-                                             param.SosyalYardimDurumu.SosyalYardimDurumuId).ToList();
+                    where += String.Format("& and DinId={0}", param.Din.DinId);
+                }
+                if (!string.IsNullOrEmpty(where))
+                {
+                    sql += where;
                 }
             }
 
-
-            var list = lists;
+            using (WebInfoContext _context = new WebInfoContext())
+            {
+                personalList = _context.Personal.FromSql(sql).ToList();
+            }
+            
+            var list = personalList;
             var filteredlist =
                 list
                     .Select(x => new[] {
