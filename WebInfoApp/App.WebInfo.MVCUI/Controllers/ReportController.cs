@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using App.WebInfo.MVCUI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace App.WebInfo.MVCUI.Controllers
@@ -75,11 +77,12 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public async Task<JsonResult> GetList(int iDisplayStart, int iDisplayLength, string sSearch, int iColumns, int iSortingCols, int iSortCol_0, string sSortDir_0, int sEcho)
         {
-            var sql = "select * from Personal where isDelete==false";
+            var sql = "select PersonalId,Adi,Soyadi,SahisNo,AileNo,AnaAdi,BabaAdi,IsState,IsDelete,LastModified,LastModifiedDate,PersonalImage,IsNewItem,AcikAdres from Personal Where IsDelete=0";
             var where = string.Empty;
             string isFiltered = _httpContextAccessor.HttpContext.Session.GetString("IsFiltered");
 
-            List<Personal> personalList;
+            List<Personal> personalList=new List<Personal>();
+            //Task<List<Personal>> personalList;
 
             if (isFiltered == "true")
             {
@@ -91,25 +94,59 @@ namespace App.WebInfo.MVCUI.Controllers
 
                 if (param.Cinsiyet.CinsiyeId != -1)
                 {
-                    where += String.Format(" and CinsityeId={0}", param.Cinsiyet.CinsiyeId);
+                    where += String.Format(" and CinsiyetCinsiyeId={0}", param.Cinsiyet.CinsiyeId);
                 }
 
 
                 if (param.Din.DinId != -1)
                 {
-                    where += String.Format("& and DinId={0}", param.Din.DinId);
+                    where += String.Format(" and DinId={0}", param.Din.DinId);
                 }
                 if (!string.IsNullOrEmpty(where))
                 {
                     sql += where;
                 }
             }
-
-            using (WebInfoContext _context = new WebInfoContext())
+            WebInfoContext _context = new WebInfoContext();
+            var conn = _context.Database.GetDbConnection();
+            try
             {
-                personalList = _context.Personal.FromSql(sql).ToList();
+                await conn.OpenAsync();
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = sql;
+                    DbDataReader reader = await command.ExecuteReaderAsync();
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var row = new Personal
+                            {
+                                PersonalId = reader.GetInt64(0),
+                                Adi = reader.GetString(1),
+                                Soyadi = reader.GetString(2),
+                                SahisNo = reader.GetString(3),
+                                AileNo = reader.GetString(4),
+                                AnaAdi = reader.GetString(5),
+                                BabaAdi = reader.GetString(6),
+                                IsState = reader.GetBoolean(7)
+                            };
+                            personalList.Add(row);
+                        }
+                    }
+                }
             }
-            
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            //using (var _context = new WebInfoContext())
+            //{
+            //    //personalList = _context.Personal.FromSql<Personal>("select * from Personal").ToListAsync();
+            //}
+
+            //var list =personalList.Result;
             var list = personalList;
             var filteredlist =
                 list
