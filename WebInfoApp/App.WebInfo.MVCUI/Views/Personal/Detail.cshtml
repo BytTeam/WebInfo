@@ -21,143 +21,147 @@
     </div>
     <div class="portlet-body print-area">
         <div style="clear:both;"></div>
-        
-         
 
-                        <div style="height:20px;"></div>
+
+
+        <div style="height:20px;"></div>
 
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1_1">
                 <div style="margin:0px;" class="row">
-                    
-                    
-                            
-                           
-                            <div style="background-color:cornsilk;  border:solid 1px burlywood; border-right:0px;" class="col-md-2">
-                                <div style="padding:10px;" class="row">
-                                    
-                                        <div style="height:207px; text-align:center;"><img  style="max-width:170px;" src="@Model.Personal.PersonalImage"> </div>
-                                
-                                  </div>
-                            
-                            </div>
-                            <div style="background-color:cornsilk;  border:solid 1px burlywood; font-size:16px; font-weight:bold;" class="col-md-10">
-                                <div style="padding:20px;" class="row">
-                                    
-                                       
-                                            <h1 class="font-red sbold uppercase">@Model.Personal.Adi @Model.Personal.Soyadi</h1>
-                                            <p>
-                                                Sosyal Yardım Açıklaması: @Model.Personal.SosyalYardimAciklama<br />
-                                                <br />Sağlık Durumu Açıklaması: @Model.Personal.SaglikDurumuAciklama<br />
-                                            </p>
 
-                                            <ul class="list-inline">
-                                                <li>
-                                                    <i class="fa fa-map-marker"></i> DOĞUM YERİ: @Model.Personal.DogumYeri.DogumYeriName
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-calendar"></i> DOĞUM TARİHİ: @Model.Personal.DogumTarihi
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-check-circle-o"></i>ŞAHIS NO: @Model.Personal.SahisNo
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-star"></i> AİLE NO: @Model.Personal.AileNo
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-venus-mars"></i> CİNSİYET: @Model.Personal.Cinsiyet.CinsiyetName
-                                                </li>
-                                                
-                                                <li>
-                                                    <i class="icon-pointer"></i> İKAMET ADRESİ: @Model.Personal.AcikAdres
-                                                </li>
-                                            </ul>
-                                        
-                                    
-                                </div>
 
-                            </div>
-                            
-                            </div>
-                           
+
+
+                    <div style="background-color:cornsilk;  border:solid 1px burlywood; border-right:0px;" class="col-md-2">
+                        <div style="padding:10px;" class="row">
+
+                            <div style="height:207px; text-align:center;"><img style="max-width:170px;" src="@Model.Personal.PersonalImage"> </div>
+
                         </div>
-            <div style="clear:both;"></div>
-                        <!--end row-->
-                        <div class="tabbable-line tabbable-custom-profile">
-                            <ul class="nav nav-tabs">
-                                
+
+                    </div>
+                    <div style="background-color:cornsilk;  border:solid 1px burlywood; font-size:16px; font-weight:bold;" class="col-md-10">
+                        <div style="padding:20px;" class="row">
+
+
+                            <h1 class="font-red sbold uppercase">@Model.Personal.Adi @Model.Personal.Soyadi</h1>
+                            <p>
+                                Sosyal Yardım Açıklaması: @Model.Personal.SosyalYardimAciklama<br />
+                                <br />Sağlık Durumu Açıklaması: @Model.Personal.SaglikDurumuAciklama<br />
+                            </p>
+
+                            <ul class="list-inline">
                                 <li>
-                                    <a href="#tab_1_22" data-toggle="tab"> YABANCI BİLGİLERİ </a>
+                                    <i class="fa fa-map-marker"></i> DOĞUM YERİ: @Model.Personal.DogumYeri.DogumYeriName
+                                </li>
+                                <li>
+                                    <i class="fa fa-calendar"></i> DOĞUM TARİHİ: @Model.Personal.DogumTarihi
+                                </li>
+                                <li>
+                                    <i class="fa fa-check-circle-o"></i>ŞAHIS NO: @Model.Personal.SahisNo
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i> AİLE NO: @Model.Personal.AileNo
+                                </li>
+                                <li>
+                                    <i class="fa fa-venus-mars"></i> CİNSİYET: @Model.Personal.Cinsiyet.CinsiyetName
+                                </li>
+
+                                <li>
+                                    <i class="icon-pointer"></i> İKAMET ADRESİ: @Model.Personal.AcikAdres
                                 </li>
                             </ul>
-                            <div class="tab-content">
-                                
-                                <!--tab-pane-->
-                                <div class="tab-pane active" id="tab_1_22">
-                                    <div class="tab-pane active" id="tab_1_1_1">
-                                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto;">
-                                            <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible1="1" data-initialized="1" style="overflow: hidden; width: auto;">
-                                                <div class="m-grid m-grid-responsive-sm m-grid-demo" style="text-transform: uppercase;">
-                                                    <div class="m-grid-row">
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>UYRUĞU:</b> <b class="font-red-sunglo">@Model.Personal.Uyruk.UyrukName</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>TELEFONU:</b> <b class="font-red-sunglo">@Model.Personal.Telefon</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>BABA ADI:</b><b class="font-red-sunglo"> @Model.Personal.BabaAdi</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>ANA ADI:</b><b class="font-red-sunglo">@Model.Personal.AnaAdi</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>DİNİ:</b><b class="font-red-sunglo">@Model.Personal.Din.DinName</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>EĞİTİM DURUMU:</b> <b class="font-red-sunglo">@Model.Personal.EgitimDurumu.EgitimDurumuName</b></div>
-                                                        
-                                                    </div>
-                                                    <div class="m-grid-row">
-                                                        
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>MEDENİ DURUMU:</b> <b class="font-red-sunglo">@Model.Personal.MedeniDurumu</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>MESHEP:</b> <b class="font-red-sunglo">@Model.Personal.Mezhep </b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>KAN GRUBU:</b> <b class="font-red-sunglo">@Model.Personal.KanGrubu.KanGrubuName </b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>AYAKKABI NO:</b><b class="font-red-sunglo">@Model.Personal.AyakkabiNo</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>BEDENİ:</b><b class="font-red-sunglo">@Model.Personal.Bedeni</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>sağlık durumu:</b> <b class="font-red-sunglo">@Model.Personal.SaglikDurumu.SaglikDurumuName</b></div>
-                                                      
-                                                    </div>
-                                                    <div class="m-grid-row">
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>mesleğİ:</b> <b class="font-red-sunglo">@Model.Personal.Meslegi</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>adli İşlem durumu:</b> <b class="font-red-sunglo">@Model.Personal.AdliIslemDurumu</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>İkamet durumu:</b> <b class="font-red-sunglo">@Model.Personal.IkametDurumu.IkametDurumuName</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>kayutlı İlİ:</b> <b class="font-red-sunglo">@Model.Personal.Il.IlName</b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>kayıtlı İLçesİ:</b> <b class="font-red-sunglo">@Model.Personal.Ilce.IlceName </b></div>
-                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>İşlem yapan kurum:</b> <b class="font-red-sunglo">@Model.Personal.IslemYapan.IslemYapanName </b></div>
-                                                        
-                                                    </div>
-                                                    <div class="m-grid-row">
-                                                        
-                                                        
-                                                     
-                                                    </div>
-                                                </div>
-                                            </div><div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div style="clear:both;"></div>
+            <!--end row-->
+            <div class="tabbable-line tabbable-custom-profile">
+                <ul class="nav nav-tabs">
+
+                    <li>
+                        <a href="#tab_1_22" data-toggle="tab"> YABANCI BİLGİLERİ </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+
+                    <!--tab-pane-->
+                    <div class="tab-pane active" id="tab_1_22">
+                        <div class="tab-pane active" id="tab_1_1_1">
+                            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto;">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible1="1" data-initialized="1" style="overflow: hidden; width: auto;">
+                                    <div class="m-grid m-grid-responsive-sm m-grid-demo" style="text-transform: uppercase;">
+                                        <div class="m-grid-row">
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>UYRUĞU:</b> <b class="font-red-sunglo">@Model.Personal.Uyruk.UyrukName</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>TELEFONU:</b> <b class="font-red-sunglo">@Model.Personal.Telefon</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>BABA ADI:</b><b class="font-red-sunglo"> @Model.Personal.BabaAdi</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>ANA ADI:</b><b class="font-red-sunglo">@Model.Personal.AnaAdi</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>DİNİ:</b><b class="font-red-sunglo">@Model.Personal.Din.DinName</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>EĞİTİM DURUMU:</b> <b class="font-red-sunglo">@Model.Personal.EgitimDurumu.EgitimDurumuName</b></div>
+
+                                        </div>
+                                        <div class="m-grid-row">
+
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>MEDENİ DURUMU:</b> <b class="font-red-sunglo">@Model.Personal.MedeniDurumu.MedeniDurumuName</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>MESHEP:</b> <b class="font-red-sunglo">@Model.Personal.Mezhep </b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>KAN GRUBU:</b> <b class="font-red-sunglo">@Model.Personal.KanGrubu.KanGrubuName </b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>AYAKKABI NO:</b><b class="font-red-sunglo">@Model.Personal.AyakkabiNo</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>BEDENİ:</b><b class="font-red-sunglo">@Model.Personal.Bedeni</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>sağlık durumu:</b> <b class="font-red-sunglo">@Model.Personal.SaglikDurumu.SaglikDurumuName</b></div>
+
+                                        </div>
+                                        <div class="m-grid-row">
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>mesleğİ:</b> <b class="font-red-sunglo">@Model.Personal.Meslegi</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>adli İşlem durumu:</b> <b class="font-red-sunglo">@Model.Personal.AdliIslemDurumu</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>İkamet durumu:</b> <b class="font-red-sunglo">@Model.Personal.IkametDurumu.IkametDurumuName</b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center">
+                                                <b>kayutlı İlİ:</b> <b class="font-red-sunglo">
+                                                    @(Model.Personal.Il != null ? Model.Personal.Il.IlName : "Bilgi Yok")
+                                                </b>
+                                            </div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>kayıtlı İLçesİ:</b> <b class="font-red-sunglo">@(Model.Personal.Ilce != null ? Model.Personal.Ilce.IlceName : "Bilgi Yok") </b></div>
+                                            <div class="m-grid-col m-grid-col-middle m-grid-col-center"><b>İşlem yapan kurum:</b> <b class="font-red-sunglo">@Model.Personal.IslemYapan.IslemYapanName </b></div>
+
+                                        </div>
+                                        <div class="m-grid-row">
+
+
+
                                         </div>
                                     </div>
-                                </div>
-                                <!--tab-pane-->
+                                </div><div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
                             </div>
                         </div>
                     </div>
+                    <!--tab-pane-->
                 </div>
             </div>
-            <!--tab_1_2-->
-            
-        
-       
+        </div>
+    </div>
+</div>
+<!--tab_1_2-->
 
 
 
-                     
-                  
-                        <div style="clear:both;"></div>
 
-                       
-                        
-                       
 
-                        
 
-                   
-      
+
+
+<div style="clear:both;"></div>
+
+
+
+
+
+
+
+
+
