@@ -431,6 +431,30 @@ namespace App.WebInfo.MVCUI.Controllers
             }
             return Json(new { isSuccess = true });
         }
+        public async Task<JsonResult> GetIlce(long? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return Json(new { isSuccess = false });
+                }
+
+                List<Ilce> ilceList = await _utileService.GetIlces((long)id);
+                if (ilceList == null)
+                {
+                    return Json(new { isSuccess = false });
+                }
+
+                return Json(new { isSuccess = true, result=ilceList.Select(x=>new{value=x.IlceId,text=x.IlceName}).ToList() });
+            }
+            catch (Exception)
+            {
+                return Json(new { isSuccess = false });
+            }
+    
+        }
+        
 
 
     }

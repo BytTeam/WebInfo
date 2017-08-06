@@ -170,12 +170,12 @@
 
     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
         <label for="form_control_1">Kayıtlı Olduğu İl Adı</label>
-        <select class="form-control olmusmu" asp-for="Personal.Il.IlId" asp-items="@Model.IlList"></select>
+        <select class="form-control olmusmu" data-change="/Personal/GetIlce" data-change-item="#ilce" asp-for="Personal.Il.IlId" asp-items="@Model.IlList"></select>
         <span asp-validation-for="Personal.Il" class="help-block"></span>
     </div>
     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
         <label for="form_control_1"> Kayıtlı Olduğu İlçe Adı</label>
-        <select class="form-control olmusmu" asp-for="Personal.Ilce.IlceId" asp-items="@Model.IlceList"></select>
+        <select class="form-control olmusmu" id="ilce" asp-for="Personal.Ilce.IlceId" ></select>
         <span asp-validation-for="Personal.Ilce" class="help-block"></span>
     </div>
     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
@@ -190,12 +190,12 @@
     </div>
     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
         <label for="form_control_1">Bulunduğu Kamp İli</label>
-        <select class="form-control olmusmu" asp-for="Personal.KampIl.IlName" asp-items="@Model.IlList"></select>
+        <select class="form-control olmusmu"  data-change="/Personal/GetIlce" data-change-item="#kampilce" asp-for="Personal.KampIl.IlName" asp-items="@Model.IlList"></select>
         <span asp-validation-for="Personal.KampIl.IlName" class="help-block"></span>
     </div>
     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
         <label for="form_control_1">Bulunduğu Kamp Bölgesi</label>
-        <select class="form-control olmusmu" asp-for="Personal.KampBolgesi.IlceName" asp-items="@Model.IlceList"></select>
+        <select class="form-control olmusmu" asp-for="Personal.KampBolgesi.IlceName" id="kampilce"></select>
         <span asp-validation-for="Personal.KampBolgesi.IlceName" class="help-block"></span>
     </div>
     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">

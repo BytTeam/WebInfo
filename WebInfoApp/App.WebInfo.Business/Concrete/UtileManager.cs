@@ -51,6 +51,11 @@ namespace App.WebInfo.Business.Concrete
             return await _utile.GetList<Ilce>();
         }
 
+        public async Task<List<Ilce>> GetIlces(long id)
+        {
+            return await _utile.GetList<Ilce>(x => x.Il.IlId == id);
+        }
+
         public async Task<List<IslemYapan>> GetIslemYapans()
         {
             return await _utile.GetList<IslemYapan>();

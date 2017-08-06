@@ -13,6 +13,7 @@ namespace App.WebInfo.Business.Abstract
         Task<List<IkametDurumu>> GetIkametDurumus();
         Task<List<Il>> GetIls();
         Task<List<Ilce>> GetIlces();
+        Task<List<Ilce>> GetIlces(long id);
         Task<List<IslemYapan>> GetIslemYapans();
         Task<List<KanGrubu>> GetKanGrubus();
         Task<List<Uyruk>> GetUyruks();
