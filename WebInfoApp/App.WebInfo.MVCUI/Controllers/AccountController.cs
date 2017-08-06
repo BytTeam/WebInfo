@@ -57,7 +57,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 IdentityResult result;
                 IdentityResult passwordResult;
                 CustomIdentityUser user;
-                if (registerViewModel.Id != "")
+                if (!string.IsNullOrEmpty(registerViewModel.Id))
                 {
                     user = _userManager.FindByNameAsync(registerViewModel.UserName).Result;
 
