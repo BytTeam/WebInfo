@@ -16,7 +16,8 @@ namespace App.WebInfo.Business
            public static string Education = "Education";
            public static string Create = "Create";
            public static string Delete = "Delete";
-           public static string Admin = "Admin";
+           public static string Reader = "Reader";
+            public static string Admin = "Admin";
        }
     }
 }

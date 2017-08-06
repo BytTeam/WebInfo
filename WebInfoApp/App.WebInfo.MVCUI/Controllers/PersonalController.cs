@@ -65,7 +65,10 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public async Task<ActionResult> Edit(long? id)
         {
-
+            if (!GetLoginUser().IsAdmin && GetLoginUser().IsReader)
+            {
+                return Unauthorized();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -148,7 +151,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
                 _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
-                _model.SosyalYardimDurumuList=ConvertSelectList(sosyalYardimTask.Result.Select(x=>new{Id=x.SosyalYardimDurumuId,Value=x.SosyalYardimDurumuName}));
+                _model.SosyalYardimDurumuList = ConvertSelectList(sosyalYardimTask.Result.Select(x => new { Id = x.SosyalYardimDurumuId, Value = x.SosyalYardimDurumuName }));
 
                 cacheModel = _model;
 
@@ -221,7 +224,7 @@ namespace App.WebInfo.MVCUI.Controllers
                         alertUi.AlertUiType = addPersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
                         CleaCache();
                     }
-                   
+
                 }
 
                 AlertUiMessage();
@@ -267,23 +270,30 @@ namespace App.WebInfo.MVCUI.Controllers
                           "<button class=\"btn btn-xs green dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\" aria-expanded=\"false\">" +
                           "İşlemler<i class=\"fa fa-angle-down\"></i>" +
                           "</button>" +
-                          "<ul class=\"dropdown-menu\" role=\"menu\">" +
-                          "<li>" +
-                          "<a href=\"" + Url.Action("Detail", "Personal", new { Id = id }) + "\">" +
-                          "<i class=\"icon-energy\"></i> Detay" +
-                          "</a>" +
-                          "</li>" +
-                          "<li>" +
-                          "<a href=\"" + Url.Action("Edit", "Personal", new { Id = id }) + "\">" +
-                          "<i class=\"icon-docs\"></i> Düzenle" +
-                          "</a>" +
-                          "</li>" +
-                          "<li>" +
-                          "<a href=\"" + Url.Action("Delete", "Personal", new { Id = id }) + "\" data-callback=\"TableDatatablesManaged.reflesh()\" class=\"btn-delete\">" +
-                          "<i class=\"icon-trash\"></i> Sil" +
-                          "</a>" +
-                          "</li>" +
-                          "</ul>" +
+                          "<ul class=\"dropdown-menu\" role=\"menu\">";
+            if (GetLoginUser().IsReader)
+            {
+                tmpl += "<li>" +
+                        "<a href=\"" + Url.Action("Detail", "Personal", new { Id = id }) + "\">" +
+                        "<i class=\"icon-energy\"></i> Detay" +
+                        "</a>" +
+                        "</li>";
+            }
+            if (GetLoginUser().IsCreate)
+            {
+                tmpl += "<li>" +
+                        "<a href=\"" + Url.Action("Edit", "Personal", new { Id = id }) + "\">" +
+                        "<i class=\"icon-docs\"></i> Düzenle" +
+                        "</a>" +
+                        "</li>" +
+                     "<li>" +
+                        "<a href=\"" + Url.Action("Delete", "Personal", new { Id = id }) +
+                        "\" data-callback=\"TableDatatablesManaged.reflesh()\" class=\"btn-delete\">" +
+                        "<i class=\"icon-trash\"></i> Sil" +
+                        "</a>" +
+                        "</li>";
+            }
+            tmpl += "</ul>" +
                           "</div>";
             return tmpl;
         }
@@ -304,7 +314,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 };
                 _memoryCache.Set(_personalCacheKey, cacheModel, opts);
             }
-           
+
 
             List<Personal> list = cacheModel;
 

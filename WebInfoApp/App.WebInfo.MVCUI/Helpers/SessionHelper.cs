@@ -38,6 +38,7 @@ namespace App.WebInfo.MVCUI.Helpers
         public bool IsCreate { get; set; }
         public bool IsDelete { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsReader { get; set; }
 
     }
 }

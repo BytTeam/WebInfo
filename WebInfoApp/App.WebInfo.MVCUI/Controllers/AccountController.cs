@@ -206,36 +206,42 @@ namespace App.WebInfo.MVCUI.Controllers
         public async Task<IActionResult> Role()
         {
 
-            CustomIdentityRole generalRole = new CustomIdentityRole
+            //CustomIdentityRole generalRole = new CustomIdentityRole
+            //{
+            //    Name = AppConst.UserRole.General
+            //};
+            //await _roleManager.CreateAsync(generalRole);
+            //CustomIdentityRole privateRole = new CustomIdentityRole
+            //{
+            //    Name = AppConst.UserRole.Private
+            //};
+            //await _roleManager.CreateAsync(privateRole);
+            //CustomIdentityRole helpRole = new CustomIdentityRole
+            //{
+            //    Name = AppConst.UserRole.Help
+            //};
+            //await _roleManager.CreateAsync(helpRole);
+            //CustomIdentityRole educationRole = new CustomIdentityRole
+            //{
+            //    Name = AppConst.UserRole.Education
+            //};
+            //await _roleManager.CreateAsync(educationRole);
+            //CustomIdentityRole createRole = new CustomIdentityRole
+            //{
+            //    Name = AppConst.UserRole.Create
+            //};
+            //await _roleManager.CreateAsync(createRole);
+            //CustomIdentityRole deleteRole = new CustomIdentityRole
+            //{
+            //    Name = AppConst.UserRole.Delete
+            //};
+            //await _roleManager.CreateAsync(deleteRole);
+
+            CustomIdentityRole readerRole = new CustomIdentityRole
             {
-                Name = AppConst.UserRole.General
+                Name = AppConst.UserRole.Reader
             };
-            await _roleManager.CreateAsync(generalRole);
-            CustomIdentityRole privateRole = new CustomIdentityRole
-            {
-                Name = AppConst.UserRole.Private
-            };
-            await _roleManager.CreateAsync(privateRole);
-            CustomIdentityRole helpRole = new CustomIdentityRole
-            {
-                Name = AppConst.UserRole.Help
-            };
-            await _roleManager.CreateAsync(helpRole);
-            CustomIdentityRole educationRole = new CustomIdentityRole
-            {
-                Name = AppConst.UserRole.Education
-            };
-            await _roleManager.CreateAsync(educationRole);
-            CustomIdentityRole createRole = new CustomIdentityRole
-            {
-                Name = AppConst.UserRole.Create
-            };
-            await _roleManager.CreateAsync(createRole);
-            CustomIdentityRole deleteRole = new CustomIdentityRole
-            {
-                Name = AppConst.UserRole.Delete
-            };
-            await _roleManager.CreateAsync(deleteRole);
+            await _roleManager.CreateAsync(readerRole);
 
             alertUi.AlertUiType = AlertUiType.success;
             AlertUiMessage();

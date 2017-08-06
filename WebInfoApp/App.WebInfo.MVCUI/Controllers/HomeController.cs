@@ -52,13 +52,14 @@ namespace App.WebInfo.MVCUI.Controllers
                 IsPrivate = User.IsInRole(AppConst.UserRole.Admin),
                 IsEducation = User.IsInRole(AppConst.UserRole.Admin),
                 IsCreate = User.IsInRole(AppConst.UserRole.Create),
-                IsDelete = User.IsInRole(AppConst.UserRole.Delete)
+                IsDelete = User.IsInRole(AppConst.UserRole.Delete),
+                IsReader=User.IsInRole(AppConst.UserRole.Reader)
             };
             if (sessionUser.IsAdmin)
             {
                 sessionUser.IsGeneral = sessionUser.IsHelp =
                     sessionUser.IsPrivate = sessionUser.IsEducation =
-                        sessionUser.IsCreate = sessionUser.IsDelete = true;
+                        sessionUser.IsCreate = sessionUser.IsDelete = sessionUser.IsReader = true;
             }
             HttpContextAccessor.HttpContext.Session.SetObject(AppConst.UserSessionName, sessionUser);
 
