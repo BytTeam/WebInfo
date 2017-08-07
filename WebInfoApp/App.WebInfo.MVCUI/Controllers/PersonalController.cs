@@ -97,7 +97,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
             Personal personal = await _personal.Get(x => x.PersonalId == id, PersonalInculude);
 
-            if (personal == null)
+            if (personal == null) 
             {
                 return NotFound();
             }

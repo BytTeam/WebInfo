@@ -346,17 +346,15 @@ namespace App.WebInfo.MVCUI.Controllers
             }
             catch (Exception ex)
             {
-
+                return View(ex.Message);
             }
-            return View();
         }
 
 
         private async void Bind()
         {
             var cacheKey = "Personal_cache_bind";
-            PersonalViewModel cacheModel;
-            if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
+            if (!_memoryCache.TryGetValue(cacheKey, out PersonalViewModel cacheModel))
             {
                 var cinsiyetTask = _utileService.GetCinsiyets();
                 var dinTask = _utileService.GetDins();
@@ -397,7 +395,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
                 cacheModel = _model;
 
-                var opts = new MemoryCacheEntryOptions()
+                var opts = new MemoryCacheEntryOptions
                 {
                     SlidingExpiration = TimeSpan.FromMinutes(30)
                 };
