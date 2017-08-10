@@ -22,6 +22,7 @@ namespace App.WebInfo.MVCUI.Models
         public SelectList SaglikDurumuList { get; set; }
         public SelectList SosyalYardimDurumuList { get; set; }
         public SelectList UyrukList { get; set; }
+        public SelectList KampIlceList { get; set; }
 
         public SessionUser SessionUser { get; set; }
     }

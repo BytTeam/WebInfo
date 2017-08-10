@@ -19,7 +19,7 @@ namespace App.WebInfo.MVCUI.Controllers
     [Authorize]
     public class PersonalController : ControllerBase
     {
-        private const string PersonalInculude = "Cinsiyet,Din,DogumYeri,EgitimDurumu,IkametDurumu,Il,Ilce,IslemYapan,KanGrubu,KayitDurumu,Koken,MedeniDurumu,SaglikDurumu,SosyalYardimDurumu,Uyruk";
+        private const string PersonalInculude = "Cinsiyet,Din,DogumYeri,EgitimDurumu,IkametDurumu,Il,Ilce,IslemYapan,KanGrubu,KayitDurumu,Koken,MedeniDurumu,SaglikDurumu,SosyalYardimDurumu,Uyruk,KampIl,KampBolgesi";
         private readonly IMemoryCache _memoryCache;
         private readonly IPersonalService _personal;
         private readonly IUtileService _utileService;
@@ -80,8 +80,13 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 return NotFound();
             }
-
+            
             await Bind();
+            List<Ilce> ilceList = await _utileService.GetIlces((long)personal.Il.IlId);
+            _model.IlceList = ConvertSelectList(ilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+            List<Ilce> kampilceList = await _utileService.GetIlces((long)personal.KampIl.IlId);
+            _model.KampIlceList = ConvertSelectList(kampilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+
             _model.Personal = personal;
             _model.SessionUser = GetLoginUser();
             return View("Create", _model);
@@ -129,7 +134,6 @@ namespace App.WebInfo.MVCUI.Controllers
                 var egitimDurumuTask = _utileService.GetEgitimDurumus();
                 var ikametDurumuTask = _utileService.GetIkametDurumus();
                 var ilTask = _utileService.GetIls();
-                var ilceTask = _utileService.GetIlces();
                 var islemYapanTask = _utileService.GetIslemYapans();
                 var kanGrubuTask = _utileService.GetKanGrubus();
                 var uyrukTask = _utileService.GetUyruks();
@@ -137,7 +141,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 var kangurubuTask = _utileService.GetKanGrubus();
                 var sosyalYardimTask = _utileService.GetSosyalYardimDurumus();
 
-                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask);
 
                 _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
                 _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
@@ -145,7 +149,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 _model.EgitimDurumuList = ConvertSelectList(egitimDurumuTask.Result.Select(x => new { Id = x.EgitimDurumuId, Value = x.EgitimDurumuName }));
                 _model.IkametDurumuList = ConvertSelectList(ikametDurumuTask.Result.Select(x => new { Id = x.IkametDurumuId, Value = x.IkametDurumuName }));
                 _model.IlList = ConvertSelectList(ilTask.Result.Select(x => new { Id = x.IlId, Value = x.IlName }));
-                _model.IlceList = ConvertSelectList(ilceTask.Result.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+                
                 _model.IslemYapanList = ConvertSelectList(islemYapanTask.Result.Select(x => new { Id = x.IslemYapanId, Value = x.IslemYapanName }));
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
@@ -282,12 +286,15 @@ namespace App.WebInfo.MVCUI.Controllers
             if (GetLoginUser().IsCreate)
             {
                 tmpl += "<li>" +
-                        "<a href=\"" + Url.Action("Edit", "Personal", new { Id = id }) + "\">" +
+                        "<a href=\"" + Url.Action("Edit", "Personal", new {Id = id}) + "\">" +
                         "<i class=\"icon-docs\"></i> Düzenle" +
                         "</a>" +
-                        "</li>" +
-                     "<li>" +
-                        "<a href=\"" + Url.Action("Delete", "Personal", new { Id = id }) +
+                        "</li>";
+            }
+            if (GetLoginUser().IsDelete)
+            {
+                tmpl += "<li>" +
+                        "<a href=\"" + Url.Action("Delete", "Personal", new {Id = id}) +
                         "\" data-callback=\"TableDatatablesManaged.reflesh()\" class=\"btn-delete\">" +
                         "<i class=\"icon-trash\"></i> Sil" +
                         "</a>" +

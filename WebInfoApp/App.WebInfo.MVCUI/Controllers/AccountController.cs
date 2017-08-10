@@ -95,7 +95,7 @@ namespace App.WebInfo.MVCUI.Controllers
                     // string[] roleSplit = registerViewModel.Roles.Split(',');
                     foreach (string rol in registerViewModel.Roles)
                     {
-                        _userManager.AddToRoleAsync(user,rol.ToLower()).Wait();
+                        _userManager.AddToRoleAsync(user, rol.ToLower()).Wait();
 
                     }
 
@@ -198,7 +198,7 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 UserName = x.UserName,
                 UserRoles = _userManager.GetRolesAsync(x).Result.ToList()
-            }).Where(x=> !x.UserRoles.Contains("Admin")).ToList();
+            }).Where(x => !x.UserRoles.Contains("Admin")).ToList();
 
             return View(model);
         }

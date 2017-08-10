@@ -60,7 +60,12 @@ namespace App.WebInfo.MVCUI.Controllers
                 sessionUser.IsGeneral = sessionUser.IsHelp =
                     sessionUser.IsPrivate = sessionUser.IsEducation =
                         sessionUser.IsCreate = sessionUser.IsDelete = sessionUser.IsReader = true;
+            }else if (sessionUser.IsCreate)
+            {
+                sessionUser.IsGeneral = sessionUser.IsHelp =
+                    sessionUser.IsPrivate = sessionUser.IsEducation = sessionUser.IsReader = true;
             }
+
             HttpContextAccessor.HttpContext.Session.SetObject(AppConst.UserSessionName, sessionUser);
 
             List<HomeReporBoxModel> reportBoxs = new List<HomeReporBoxModel>();
