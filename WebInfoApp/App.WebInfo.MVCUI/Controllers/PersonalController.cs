@@ -82,11 +82,14 @@ namespace App.WebInfo.MVCUI.Controllers
             }
             
             await Bind();
+            if (personal.Il != null) { 
             List<Ilce> ilceList = await _utileService.GetIlces((long)personal.Il.IlId);
-            _model.IlceList = ConvertSelectList(ilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+                _model.IlceList = ConvertSelectList(ilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+            }
+            if (personal.KampIl != null) {            
             List<Ilce> kampilceList = await _utileService.GetIlces((long)personal.KampIl.IlId);
             _model.KampIlceList = ConvertSelectList(kampilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
-
+            }
             _model.Personal = personal;
             _model.SessionUser = GetLoginUser();
             return View("Create", _model);
