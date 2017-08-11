@@ -65,7 +65,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public async Task<ActionResult> Edit(long? id)
         {
-            if (!GetLoginUser().IsAdmin && GetLoginUser().IsReader)
+            if (!GetLoginUser().IsAdmin && !GetLoginUser().IsCreate && GetLoginUser().IsReader)
             {
                 return Unauthorized();
             }
