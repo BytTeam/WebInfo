@@ -143,8 +143,9 @@ namespace App.WebInfo.MVCUI.Controllers
                 var saglikDurumuTask = _utileService.GetSaglikDurumus();
                 var kangurubuTask = _utileService.GetKanGrubus();
                 var sosyalYardimTask = _utileService.GetSosyalYardimDurumus();
+                var kokenTask = _utileService.GetKokens();
 
-                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask, kokenTask);
 
                 _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
                 _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
@@ -159,6 +160,11 @@ namespace App.WebInfo.MVCUI.Controllers
                 _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 _model.SosyalYardimDurumuList = ConvertSelectList(sosyalYardimTask.Result.Select(x => new { Id = x.SosyalYardimDurumuId, Value = x.SosyalYardimDurumuName }));
+                _model.KokenList = ConvertSelectList(kokenTask.Result.Select(x => new
+                {
+                    Id = x.KokenId,
+                    Value = x.KokenName,
+                }));
 
                 cacheModel = _model;
 

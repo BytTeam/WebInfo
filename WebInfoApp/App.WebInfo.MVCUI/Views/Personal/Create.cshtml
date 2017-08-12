@@ -157,6 +157,31 @@
                                 <select class="form-control olmusmu" asp-for="Personal.MedeniDurumu.MedeniDurumuId" asp-items="@Model.MedeniDurumuList"></select>
                                 <span asp-validation-for="Personal.Uyruk" class="help-block"></span>
                             </div>
+                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                                <label class="form-control_1"> Etnik Köken</label>
+                                <select class="form-control olmusmu" asp-for="Personal.Koken.KokenId" asp-items="@Model.KokenList"></select>
+                                <span asp-validation-for="Personal.Uyruk" class="help-block"></span>
+                            </div>
+                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                                <label for="form_control_1">Kayıt Tipi</label>
+                                <input class="form-control olmusmu" asp-for="Personal.KayitTipi" />
+                                <span asp-validation-for="Personal.KayitTipi" class="help-block"></span>
+                            </div>
+                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                                <label for="form_control_1">Kayıt Tarihi</label>
+                                <input class="form-control olmusmu" asp-for="Personal.KayitTarihi" />
+                                <span asp-validation-for="Personal.KayitTarihi" class="help-block"></span>
+                            </div>
+                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                                <label for="form_control_1">Mezhep</label>
+                                <input class="form-control olmusmu" asp-for="Personal.Mezhep" />
+                                <span asp-validation-for="Personal.Mezhep" class="help-block"></span>
+                            </div>
+                            <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                                <label for="form_control_1">Mesleği</label>
+                                <input class="form-control olmusmu" asp-for="Personal.Meslegi" />
+                                <span asp-validation-for="Personal.Meslegi" class="help-block"></span>
+                            </div>
                             <div style="clear: both; height: 30px;"></div>
                             <div class="form-group form-md-line-input  form-md-floating-label clearfix">
                                 <div class="col-xs-12 col-sm-2 col-md-2 text-center">
@@ -195,6 +220,21 @@
                             <select class="form-control olmusmu" id="ilce" asp-items="@Model.IlceList" asp-for="Personal.Ilce.IlceId"></select>
                             <span asp-validation-for="Personal.Ilce" class="help-block"></span>
                         </div>
+                     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                         <label for="form_control_1">Mahalle</label>
+                         <input class="form-control olmusmu" asp-for="Personal.Mahalle" />
+                         <span asp-validation-for="Personal.Mahalle" class="help-block"></span>
+                     </div>
+                     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                         <label for="form_control_1">Sokak</label>
+                         <input class="form-control olmusmu" asp-for="Personal.Sokak" />
+                         <span asp-validation-for="Personal.Sokak" class="help-block"></span>
+                     </div>
+                     <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
+                         <label for="form_control_1">KapıNo</label>
+                         <input class="form-control olmusmu" asp-for="Personal.KapiNo" />
+                         <span asp-validation-for="Personal.KapiNo" class="help-block"></span>
+                     </div>
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                             <label for="form_control_1">İkamet Durumu</label>
                             <select class="form-control olmusmu" asp-for="Personal.IkametDurumu.IkametDurumuId" asp-items="@Model.IkametDurumuList"></select>
