@@ -6,6 +6,23 @@
     ViewBag.isMenuLink = "/Yabancı";
     ViewBag.SubTitle = "Yabancı Ekle";
     ViewBag.SubDescription = "Yabancı Listesi";
+
+    if (!Model.SessionUser.IsGeneral)
+    {
+        ViewBag.GenelClass = "hidden";
+    }
+    if (!Model.SessionUser.IsEducation)
+    {
+        ViewBag.EducationClass = "hidden";
+    }
+    if (!Model.SessionUser.IsHelp)
+    {
+        ViewBag.HelpClass = "hidden";
+    }
+    if (!Model.SessionUser.IsPrivate)
+    {
+        ViewBag.PrivateClass = "hidden";
+    }
 }
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -32,50 +49,38 @@
             <input type="hidden" asp-for="Personal.CreatedBy" />
             @Html.AntiForgeryToken()
 
-
+        
             <div class="tabbable tabbable-tabdrop">
                 <ul class="nav nav-tabs">
-                    @if (Model.SessionUser.IsGeneral)
-                    {
-                        <li class="active">
+                    
+                        <li class="@ViewBag.GenelClass">
                             <a href="#tab1" data-toggle="tab">Genel Nüfus Bil.</a>
                         </li>
-                    }
-                    @if (Model.SessionUser.IsGeneral)
-                    {
-                        <li>
+                    
+                  
+                        <li class="@ViewBag.GenelClass">
                             <a href="#tab2" data-toggle="tab">Adres Bil.</a>
                         </li>
-                    };
-                    @if (Model.SessionUser.IsHelp)
-                    {
-                        <li>
+                
+                        <li class="@ViewBag.HelpClass">
                             <a href="#tab3" data-toggle="tab">Sağlık BBil.</a>
                         </li>
-                    }
-                    @if (Model.SessionUser.IsEducation)
-                    {
-                        <li>
+                   
+                        <li class="@ViewBag.EducationClass">
                             <a href="#tab4" data-toggle="tab">Eğitim Bil.</a>
                         </li>
-                    }
-                    @if (Model.SessionUser.IsPrivate)
-                    {
-                        <li>
+                    
+                        <li class="@ViewBag.PrivateClass">
                             <a href="#tab5" data-toggle="tab">Adli İşlem Bil.</a>
                         </li>
-                    }
-                    @if (Model.SessionUser.IsHelp)
-                    {
-                        <li>
+                    
+                        <li class="@ViewBag.HelpClass">
                             <a href="#tab6" data-toggle="tab">Sosyal Yardım Bil.</a>
                         </li>
-                    }
+                    
                 </ul>
                 <div class="tab-content">
-                    @if (Model.SessionUser.IsGeneral)
-                    {
-                        <div class="tab-pane active" id="tab1">
+                        <div class="tab-pane" id="tab1">
 
                             <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                                 <label class="form-control_1">İşlemi Yapan Kurum</label>
@@ -271,9 +276,7 @@
                             <span asp-validation-for="Personal.AcikAdres" class="help-block"></span>
                         </div>
                     </div>
-                    }
-                @if (Model.SessionUser.IsHelp)
-                {
+                   
                     <div class="tab-pane" id="tab3">
 
 
@@ -307,9 +310,6 @@
 
                     </div>
 
-                }
-                @if (Model.SessionUser.IsEducation)
-                {
                     <div class="tab-pane" id="tab4">
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                             <label class="form-control_1"> Eğitim Durumu</label>
@@ -334,9 +334,6 @@
 
                     </div>
 
-                }
-                @if (Model.SessionUser.IsPrivate)
-                {
                     <div class="tab-pane" id="tab5">
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
                             <label class="form-control_1">Adli İşlem Durumu</label>
@@ -344,9 +341,6 @@
                             <span asp-validation-for="Personal.AdliIslemDurumu" class="help-block"></span>
                         </div>
                     </div>
-                }
-                @if (Model.SessionUser.IsHelp)
-                {
                     <div class="tab-pane" id="tab6">
 
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
@@ -360,7 +354,6 @@
                             <span asp-validation-for="Personal.SosyalYardimAciklama" class="help-block"></span>
                         </div>
                     </div>
-                }
                 </div>
             </div>
             <div style="clear:both; height:60px;"></div>
@@ -374,4 +367,9 @@
 </div>
 @section Scripts{
     <script src="~/assets/pages/scripts/personalPage.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".tabbable .nav-tabs li:not(.hidden) a").eq(0).click()
+        });
+    </script>
 }

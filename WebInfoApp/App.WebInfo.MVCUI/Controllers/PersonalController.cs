@@ -48,7 +48,6 @@ namespace App.WebInfo.MVCUI.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin,Create")]
         public async Task<IActionResult> Create()
         {
             await Bind();
@@ -179,7 +178,6 @@ namespace App.WebInfo.MVCUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,Create")]
         public async Task<IActionResult> Create(PersonalViewModel model, IFormFile personalImage)
         {
             try
@@ -292,7 +290,7 @@ namespace App.WebInfo.MVCUI.Controllers
                         "</a>" +
                         "</li>";
             }
-            if (GetLoginUser().IsCreate)
+            if (GetLoginUser().IsCreate || !GetLoginUser().IsReader)
             {
                 tmpl += "<li>" +
                         "<a href=\"" + Url.Action("Edit", "Personal", new {Id = id}) + "\">" +

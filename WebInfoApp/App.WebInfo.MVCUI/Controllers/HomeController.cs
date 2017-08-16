@@ -49,8 +49,8 @@ namespace App.WebInfo.MVCUI.Controllers
                 IsAdmin = User.IsInRole(AppConst.UserRole.Admin),
                 IsGeneral = User.IsInRole(AppConst.UserRole.General),
                 IsHelp = User.IsInRole(AppConst.UserRole.Help),
-                IsPrivate = User.IsInRole(AppConst.UserRole.Admin),
-                IsEducation = User.IsInRole(AppConst.UserRole.Admin),
+                IsPrivate = User.IsInRole(AppConst.UserRole.Private),
+                IsEducation = User.IsInRole(AppConst.UserRole.Education),
                 IsCreate = User.IsInRole(AppConst.UserRole.Create),
                 IsDelete = User.IsInRole(AppConst.UserRole.Delete),
                 IsReader=User.IsInRole(AppConst.UserRole.Reader)
