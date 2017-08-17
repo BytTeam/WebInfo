@@ -176,6 +176,7 @@ namespace App.WebInfo.MVCUI.Controllers
                             string strKampBolgesi = CheckString(worksheet.Cells[row, 37].Value);
                             string strKampMah = CheckString(worksheet.Cells[row, 38].Value);
                             string strKonteynerNo = CheckString(worksheet.Cells[row, 39].Value);
+                            string strAcikIkametAdresi = CheckString(worksheet.Cells[row, 40].Value);
                             var personal = new Personal
                             {
                                 IkametDurumu = new IkametDurumu
@@ -250,7 +251,8 @@ namespace App.WebInfo.MVCUI.Controllers
                                 },
                                 KampAdi = strKampAdi,
                                 KampMahallesi = strKampMah,
-                                KonteynerNo = strKonteynerNo
+                                KonteynerNo = strKonteynerNo,
+                                AcikAdres = strAcikIkametAdresi
                             };
                             personals.Add(personal);
                         }
