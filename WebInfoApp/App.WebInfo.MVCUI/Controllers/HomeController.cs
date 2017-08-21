@@ -16,6 +16,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.Core.Utilities;
+using App.WebInfo.DataAccess.Concrete.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.WebInfo.MVCUI.Controllers
 {
@@ -278,6 +281,31 @@ namespace App.WebInfo.MVCUI.Controllers
                 Personals = personals
             };
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult ResetDb()
+        {
+            int result = 0;
+            using (var context=new WebInfoContext())
+            {
+                List<Personal> lists=context.Personal.ToList();
+                context.Personal.RemoveRange(lists);
+                context.SaveChanges();
+                string sql = "DBCC CHECKIDENT ('[Personal]', RESEED, 0);";
+                result=context.Database.ExecuteSqlCommand(sql);
+            }
+            if (result != 0)
+            {
+                alertUi.AlertUiType = AlertUiType.success;
+            }
+            else
+            {
+                alertUi.AlertUiType = AlertUiType.error;
+            }
+
+            AlertUiMessage();
+            return View();
         }
 
         public string CheckString(object check)
