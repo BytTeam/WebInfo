@@ -30,6 +30,7 @@ namespace App.WebInfo.MVCUI.Controllers
         private readonly IMemoryCache _memoryCache;
         private readonly IUtileService _utileService;
         private PersonalViewModel _model;
+        private readonly object _personalCacheKey = "PersonalList_CacheKey";
 
         public HomeController(IPersonalService personalService, IHostingEnvironment environment, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache, IUtileService utileService)
         {
@@ -119,6 +120,11 @@ namespace App.WebInfo.MVCUI.Controllers
         public IActionResult ImportFile()
         {
             return View(new ImportModel() { Personals = new List<Personal>() });
+        }
+
+        public void CleaCache()
+        {
+            _memoryCache.Remove(_personalCacheKey);
         }
 
         [HttpPost]
@@ -303,9 +309,9 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 alertUi.AlertUiType = AlertUiType.error;
             }
-
+            CleaCache();
             AlertUiMessage();
-            return View();
+            return RedirectToAction("Index");
         }
 
         public string CheckString(object check)
