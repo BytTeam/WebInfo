@@ -1,34 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using App.WebInfo.Business.Abstract;
-using App.WebInfo.DataAccess.Concrete.EntityFramework;
+﻿using App.WebInfo.DataAccess.Concrete.EntityFramework;
 using App.WebInfo.Entities.Concrete;
 using App.WebInfo.MVCUI.Helpers;
 using App.WebInfo.MVCUI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
-using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace App.WebInfo.MVCUI.Controllers
 {
     public class ReportController : ControllerBase
     {
-        private const string PersonalInculude = "Cinsiyet,Din,DogumYeri,EgitimDurumu,IkametDurumu,Il,Ilce,IslemYapan,KanGrubu,KayitDurumu,Koken,MedeniDurumu,SaglikDurumu,SosyalYardimDurumu,Uyruk";
-        private readonly IMemoryCache _memoryCache;
-        public ReportViewModel Model;
-        private readonly IPersonalService _personalService;
-        private readonly object _personalCacheKey = "PersonalList_CacheKey";
+
+        public ReportViewModel Model { get; set; }
+
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public ReportController(IPersonalService personalService, IMemoryCache memoryCache, IHttpContextAccessor httpContextAccessor)
+        public ReportController(IHttpContextAccessor httpContextAccessor)
         {
-            _personalService = personalService;
-            _memoryCache = memoryCache;
             _httpContextAccessor = httpContextAccessor;
             Model = Model ?? new ReportViewModel();
         }
@@ -81,8 +72,8 @@ namespace App.WebInfo.MVCUI.Controllers
             var where = string.Empty;
             string isFiltered = _httpContextAccessor.HttpContext.Session.GetString("IsFiltered");
 
-            List<Personal> personalList=new List<Personal>();
-            //Task<List<Personal>> personalList;
+            List<Personal> personalList = new List<Personal>();
+            
 
             if (isFiltered == "true")
             {
@@ -92,30 +83,81 @@ namespace App.WebInfo.MVCUI.Controllers
                 var param = paramx.Filter;
 
 
-                if (param.Cinsiyet.CinsiyeId != -1)
+                if (param.Cinsiyet.CinsiyeId != 1)
                 {
                     where += String.Format(" and CinsiyetCinsiyeId={0}", param.Cinsiyet.CinsiyeId);
                 }
 
-
-                if (param.Din.DinId != -1)
+                if (param.Din.DinId != 1)
                 {
                     where += String.Format(" and DinId={0}", param.Din.DinId);
                 }
+
+                if (param.EgitimDurumu.EgitimDurumuId != 1)
+                {
+                    where += String.Format(" and EgitimDurumuId={0}", param.EgitimDurumu.EgitimDurumuId);
+                }
+
+                if (param.IslemYapan.IslemYapanId != 1)
+                {
+                    where += String.Format(" and IslemYapanId={0}", param.IslemYapan.IslemYapanId);
+                }
+
+                if (param.KanGrubu.KanGrubuId != 1)
+                {
+                    where += String.Format(" and KanGrubuId={0}", param.KanGrubu.KanGrubuId);
+                }
+
+                if (param.KayitDurumu.KayitDurumuId != 1)
+                {
+                    where += String.Format(" and KayitDurumuId={0}", param.KayitDurumu.KayitDurumuId);
+                }
+
+                if (param.MedeniDurumu.MedeniDurumuId != 1)
+                {
+                    where += String.Format(" and MedeniDurumuId={0}", param.MedeniDurumu.MedeniDurumuId);
+                }
+
+                if (param.SosyalYardimDurumu.SosyalYardimDurumuId != 1)
+                {
+                    where += String.Format(" and SosyalYardimDurumuId={0}", param.SosyalYardimDurumu.SosyalYardimDurumuId);
+                }
+
+                if (param.Uyruk.UyrukId != 1)
+                {
+                    where += String.Format(" and UyrukId={0}", param.Uyruk.UyrukId);
+                }
+
+                if (param.Koken.KokenId != 1)
+                {
+                    where += String.Format(" and KokenId={0}", param.Koken.KokenId);
+                }
+
+                if (param.SaglikDurumu.SaglikDurumuId != 1)
+                {
+                    where += String.Format(" and SaglikDurumuId={0}", param.SaglikDurumu.SaglikDurumuId);
+                }
+
+                if (param.IkametDurumu.IkametDurumuId != 1)
+                {
+                    where += String.Format(" and IkametDurumuId={0}", param.IkametDurumu.IkametDurumuId);
+                }
+
+
                 if (!string.IsNullOrEmpty(where))
                 {
                     sql += where;
                 }
             }
-            WebInfoContext _context = new WebInfoContext();
-            var conn = _context.Database.GetDbConnection();
+            var context = new WebInfoContext();
+            var conn = context.Database.GetDbConnection();
             try
             {
                 await conn.OpenAsync();
                 using (var command = conn.CreateCommand())
                 {
                     command.CommandText = sql;
-                    DbDataReader reader = await command.ExecuteReaderAsync();
+                    var reader = await command.ExecuteReaderAsync();
                     if (reader.HasRows)
                     {
                         while (await reader.ReadAsync())
@@ -141,12 +183,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-            //using (var _context = new WebInfoContext())
-            //{
-            //    //personalList = _context.Personal.FromSql<Personal>("select * from Personal").ToListAsync();
-            //}
 
-            //var list =personalList.Result;
             var list = personalList;
             var filteredlist =
                 list
@@ -173,7 +210,7 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 aaData = orderedlist,
                 iTotalDisplayRecords = enumerable.Length,
-                iTotalRecords = list.Count(),
+                iTotalRecords = list.Count,
                 sEcho = sEcho.ToString()
             };
             return Json(model);

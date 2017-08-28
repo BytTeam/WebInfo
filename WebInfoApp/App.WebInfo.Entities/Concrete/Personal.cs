@@ -39,7 +39,7 @@ namespace App.WebInfo.Entities.Concrete
         [MaxLength(20)]
         public string DogumTarihi { get; set; }
 
-        public virtual DogumYeri DogumYeri { get; set; }
+        public string DogumYeri { get; set; }
 
         public virtual Il Il { get; set; }
         public virtual Ilce Ilce { get; set; }

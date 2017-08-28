@@ -148,8 +148,8 @@
                         </div>
 
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">
-                            <label asp-for="Personal.DogumYeri"></label>
-                            <select class="form-control olmusmu" asp-for="Personal.DogumYeri.DogumYeriId" asp-items="@Model.DogumYeriList"></select>
+                            <label for="form_control_1">Doğum Yeri</label>
+                            <input class="form-control olmusmu"  type="text" asp-for="Personal.DogumYeri" />
                             <span asp-validation-for="Personal.DogumYeri" class="help-block"></span>
                         </div>
                         <div class="form-group form-md-line-input  form-md-floating-label bizedemi-col-2">

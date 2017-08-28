@@ -198,10 +198,7 @@ namespace App.WebInfo.MVCUI.Controllers
                                 BabaAdi = strBabaadi,
                                 AnaAdi = strAnaAdi,
                                 DogumTarihi = strDTarihi,
-                                DogumYeri = new DogumYeri
-                                {
-                                    DogumYeriId = Convert.ToInt32(GetDefaultOrSelectedItemValue(_model.DogumYeriList, strDYeri))
-                                },
+                                DogumYeri = strDYeri,
                                 AdliIslemDurumu = strAdliIslem,
                                 Mahalle = strMahalle,
                                 Sokak = strSokak,

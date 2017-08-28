@@ -4,33 +4,57 @@
     <input type="hidden" asp-for="Filter.PersonalId" />
     <div class="row">
         <div class="col-xs-12 col-md-3">
-            <label for="Cinsiyet"> Cinsiyet</label>
+            <label asp-for="Filter.Cinsiyet.CinsiyeId"> Cinsiyet</label>
             <select asp-for="Filter.Cinsiyet.CinsiyeId" asp-items="Model.CinsiyetList"></select>
         </div>
         <div class="col-xs-12 col-md-3">
-            <label for="din"> Din</label>
+            <label asp-for="Filter.Din.DinId"> Din</label>
             <select asp-for="Filter.Din.DinId" asp-items="Model.DinList"></select>
         </div>
-        @*<div class="col-xs-12 col-md-3">
-            <select asp-for="Filter.Cinsiyet" asp-items="Model.EgitimDurumuList"></select>
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.EgitimDurumu.EgitimDurumuId"> Eğitim Durumu</label>
+            <select asp-for="Filter.EgitimDurumu.EgitimDurumuId" asp-items="Model.EgitimDurumuList"></select>
         </div>
         <div class="col-xs-12 col-md-3">
-            <select asp-for="Filter.Cinsiyet" asp-items="Model.IslemYapanList"></select>
-        </div>*@
+            <label asp-for="Filter.IslemYapan.IslemYapanId">İşlem Yapan</label>
+            <select asp-for="Filter.IslemYapan.IslemYapanId" asp-items="Model.IslemYapanList"></select>
+        </div>
     </div>
     <div class="row">
-        @*<div class="col-xs-12 col-md-3">
-            <select asp-for="Filter.Cinsiyet" asp-items="Model.KanGrubuList"></select>
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.KanGrubu.KanGrubuId">Kan Grubu</label>
+            <select asp-for="Filter.KanGrubu.KanGrubuId" asp-items="Model.KanGrubuList"></select>
         </div>
         <div class="col-xs-12 col-md-3">
-            <select asp-for="Filter.Cinsiyet" asp-items="Model.KayitDurumuList"></select>
+            <label asp-for="Filter.KayitDurumu.KayitDurumuId">Kayit Durumu</label>
+            <select asp-for="Filter.KayitDurumu.KayitDurumuId" asp-items="Model.KayitDurumuList"></select>
         </div>
         <div class="col-xs-12 col-md-3">
-            <select asp-for="Filter.Cinsiyet" asp-items="Model.MedeniDurumuList"></select>
+            <label asp-for="Filter.MedeniDurumu.MedeniDurumuId">Medeni Durumu</label>
+            <select asp-for="Filter.MedeniDurumu.MedeniDurumuId" asp-items="Model.MedeniDurumuList"></select>
         </div>
         <div class="col-xs-12 col-md-3">
-            <select asp-for="Filter.Cinsiyet" asp-items="Model.SosyalYardimDurumuList"></select>
-        </div>*@
+            <label asp-for="Filter.SosyalYardimDurumu.SosyalYardimDurumuId">Sosyal Yardım Durumu</label>
+            <select asp-for="Filter.SosyalYardimDurumu.SosyalYardimDurumuId" asp-items="Model.SosyalYardimDurumuList"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.Uyruk.UyrukId">Uyruk</label>
+            <select asp-for="Filter.Uyruk.UyrukId" asp-items="Model.UyrukList"></select>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.Koken.KokenId">Köken</label>
+            <select asp-for="Filter.Koken.KokenId" asp-items="Model.KokenList"></select>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.SaglikDurumu.SaglikDurumuId">Sağlık Durumu</label>
+            <select asp-for="Filter.SaglikDurumu.SaglikDurumuId" asp-items="Model.SaglikDurumuList"></select>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.IkametDurumu.IkametDurumuId">İkamet Durumu</label>
+            <select asp-for="Filter.IkametDurumu.IkametDurumuId" asp-items="Model.IkametDurumuList"></select>
+        </div>
     </div>
     <div class="btn-group">
         <input type="submit" class="btn btn-primary" value="Ara"/>

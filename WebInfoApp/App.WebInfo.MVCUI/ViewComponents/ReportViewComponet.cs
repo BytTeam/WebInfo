@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using App.WebInfo.Business.Abstract;
 using App.WebInfo.Entities.Concrete;
 using App.WebInfo.MVCUI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
@@ -17,7 +16,7 @@ namespace App.WebInfo.MVCUI.ViewComponents
         private readonly IMemoryCache _memoryCache;
         private readonly IUtileService _utileService;
         private ReportViewModel _model;
-        public ReportViewComponet(IMemoryCache memoryCache,  IUtileService utileService, IHttpContextAccessor httpContextAccessor)
+        public ReportViewComponet(IMemoryCache memoryCache,  IUtileService utileService)
         {
             _memoryCache = memoryCache;
             _utileService = utileService;
@@ -35,9 +34,8 @@ namespace App.WebInfo.MVCUI.ViewComponents
         }
         private async Task Bind()
         {
-            var cacheKey = "Personal_cache_bind";
-            ReportViewModel cacheModel;
-            if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
+            var cacheKey = "Personal_cache_report_bind";
+            if (!_memoryCache.TryGetValue(cacheKey, out ReportViewModel cacheModel))
             {
                 var cinsiyetTask = _utileService.GetCinsiyets();
                 var dinTask = _utileService.GetDins();
@@ -52,8 +50,11 @@ namespace App.WebInfo.MVCUI.ViewComponents
                 var saglikDurumuTask = _utileService.GetSaglikDurumus();
                 var kangurubuTask = _utileService.GetKanGrubus();
                 var sosyalYardimTask = _utileService.GetSosyalYardimDurumus();
+                var kayitDurumuTask = _utileService.GetKayitDurumus();
+                var kokenTask = _utileService.GetKokens();
+                var medeniDurumuTask = _utileService.GetMedeniDurumus();
 
-                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, ilceTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask, kayitDurumuTask, kokenTask, medeniDurumuTask);
 
                 _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
                 _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
@@ -66,12 +67,16 @@ namespace App.WebInfo.MVCUI.ViewComponents
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
                 _model.SaglikDurumuList = ConvertSelectList(saglikDurumuTask.Result.Select(x => new { Id = x.SaglikDurumuId, Value = x.SaglikDurumuName }));
-                _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 _model.SosyalYardimDurumuList = ConvertSelectList(sosyalYardimTask.Result.Select(x => new { Id = x.SosyalYardimDurumuId, Value = x.SosyalYardimDurumuName }));
+                _model.KayitDurumuList = ConvertSelectList(kayitDurumuTask.Result.Select(x => new { Id = x.KayitDurumuId, Value = x.KayitDurumuName }));
+
+                _model.KokenList = ConvertSelectList(kokenTask.Result.Select(x => new { Id = x.KokenId, Value = x.KokenName }));
+
+                _model.MedeniDurumuList = ConvertSelectList(medeniDurumuTask.Result.Select(x => new { Id = x.MedeniDurumuId, Value = x.MedeniDurumuName }));
 
                 cacheModel = _model;
 
-                var opts = new MemoryCacheEntryOptions()
+                var opts = new MemoryCacheEntryOptions
                 {
                     SlidingExpiration = TimeSpan.FromMinutes(30)
                 };

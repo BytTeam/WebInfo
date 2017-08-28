@@ -19,7 +19,7 @@ namespace App.WebInfo.MVCUI.Controllers
     [Authorize]
     public class PersonalController : ControllerBase
     {
-        private const string PersonalInculude = "Cinsiyet,Din,DogumYeri,EgitimDurumu,IkametDurumu,Il,Ilce,IslemYapan,KanGrubu,KayitDurumu,Koken,MedeniDurumu,SaglikDurumu,SosyalYardimDurumu,Uyruk,KampIl,KampBolgesi";
+        private const string PersonalInculude = "Cinsiyet,Din,EgitimDurumu,IkametDurumu,Il,Ilce,IslemYapan,KanGrubu,KayitDurumu,Koken,MedeniDurumu,SaglikDurumu,SosyalYardimDurumu,Uyruk,KampIl,KampBolgesi";
         private readonly IMemoryCache _memoryCache;
         private readonly IPersonalService _personal;
         private readonly IUtileService _utileService;
@@ -59,6 +59,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
         public SelectList ConvertSelectList(IEnumerable<object> list)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
             return new SelectList(list, "Id", "Value");
         }
 
@@ -79,15 +80,17 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 return NotFound();
             }
-            
+
             await Bind();
-            if (personal.Il != null) { 
-            List<Ilce> ilceList = await _utileService.GetIlces((long)personal.Il.IlId);
+            if (personal.Il != null)
+            {
+                var ilceList = await _utileService.GetIlces(personal.Il.IlId);
                 _model.IlceList = ConvertSelectList(ilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
             }
-            if (personal.KampIl != null) {            
-            List<Ilce> kampilceList = await _utileService.GetIlces((long)personal.KampIl.IlId);
-            _model.KampIlceList = ConvertSelectList(kampilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
+            if (personal.KampIl != null)
+            {
+                var kampilceList = await _utileService.GetIlces(personal.KampIl.IlId);
+                _model.KampIlceList = ConvertSelectList(kampilceList.Select(x => new { Id = x.IlceId, Value = x.IlceName }));
             }
             _model.Personal = personal;
             _model.SessionUser = GetLoginUser();
@@ -104,7 +107,7 @@ namespace App.WebInfo.MVCUI.Controllers
 
             Personal personal = await _personal.Get(x => x.PersonalId == id, PersonalInculude);
 
-            if (personal == null) 
+            if (personal == null)
             {
                 return NotFound();
             }
@@ -132,7 +135,6 @@ namespace App.WebInfo.MVCUI.Controllers
             {
                 var cinsiyetTask = _utileService.GetCinsiyets();
                 var dinTask = _utileService.GetDins();
-                var dogumYeriTask = _utileService.GetDogumYeris();
                 var egitimDurumuTask = _utileService.GetEgitimDurumus();
                 var ikametDurumuTask = _utileService.GetIkametDurumus();
                 var ilTask = _utileService.GetIls();
@@ -144,15 +146,14 @@ namespace App.WebInfo.MVCUI.Controllers
                 var sosyalYardimTask = _utileService.GetSosyalYardimDurumus();
                 var kokenTask = _utileService.GetKokens();
 
-                await Task.WhenAll(cinsiyetTask, dinTask, dogumYeriTask, egitimDurumuTask, ikametDurumuTask, ilTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask, kokenTask);
+                await Task.WhenAll(cinsiyetTask, dinTask, egitimDurumuTask, ikametDurumuTask, ilTask, islemYapanTask, kanGrubuTask, uyrukTask, saglikDurumuTask, kangurubuTask, sosyalYardimTask, kokenTask);
 
                 _model.CinsiyetList = ConvertSelectList(cinsiyetTask.Result.Select(x => new { Id = x.CinsiyeId, Value = x.CinsiyetName }));
                 _model.DinList = ConvertSelectList(dinTask.Result.Select(x => new { Id = x.DinId, Value = x.DinName }));
-                _model.DogumYeriList = ConvertSelectList(dogumYeriTask.Result.Select(x => new { Id = x.DogumYeriId, Value = x.DogumYeriName }));
                 _model.EgitimDurumuList = ConvertSelectList(egitimDurumuTask.Result.Select(x => new { Id = x.EgitimDurumuId, Value = x.EgitimDurumuName }));
                 _model.IkametDurumuList = ConvertSelectList(ikametDurumuTask.Result.Select(x => new { Id = x.IkametDurumuId, Value = x.IkametDurumuName }));
                 _model.IlList = ConvertSelectList(ilTask.Result.Select(x => new { Id = x.IlId, Value = x.IlName }));
-                
+
                 _model.IslemYapanList = ConvertSelectList(islemYapanTask.Result.Select(x => new { Id = x.IslemYapanId, Value = x.IslemYapanName }));
                 _model.KanGrubuList = ConvertSelectList(kanGrubuTask.Result.Select(x => new { Id = x.KanGrubuId, Value = x.KanGrubuName }));
                 _model.UyrukList = ConvertSelectList(uyrukTask.Result.Select(x => new { Id = x.UyrukId, Value = x.UyrukName }));
@@ -180,72 +181,61 @@ namespace App.WebInfo.MVCUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PersonalViewModel model, IFormFile personalImage)
         {
-            try
+
+            await Bind();
+            if (!ModelState.IsValid)
             {
-                await Bind();
-                if (!ModelState.IsValid)
-                {
-                    _model.Personal = model.Personal;
+                _model.Personal = model.Personal;
 
 
-                    return View(_model);
-                }
-
-                var fileName = FileUpload(personalImage);
-                if (personalImage != null && !string.IsNullOrEmpty(fileName))
-                {
-                    model.Personal.PersonalImage = fileName;
-                }
-                if (model.Personal.PersonalId != 0)
-                {
-                    try
-                    {
-                        model.Personal.LastModified = GetLoginUser().UserName;
-                    }
-                    catch
-                    {
-
-                    }
-                    model.Personal.LastModifiedDate = DateTime.Now;
-                    model.Personal.IsNewItem = false;
-                    var updatePersonal = _personal.Update(model.Personal);
-                    await updatePersonal;
-                    if (updatePersonal.IsCompleted)
-                    {
-                        alertUi.AlertUiType = updatePersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
-                        CleaCache();
-                    }
-                }
-                else
-                {
-                    model.Personal.CreationDate = DateTime.Now;
-                    model.Personal.IsNewItem = true;
-                    try
-                    {
-                        model.Personal.CreatedBy = GetLoginUser().UserName;
-                    }
-                    catch
-                    {
-
-                    }
-                    var addPersonal = _personal.Add(model.Personal);
-                    await addPersonal;
-                    if (addPersonal.IsCompleted)
-                    {
-                        alertUi.AlertUiType = addPersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
-                        CleaCache();
-                    }
-
-                }
-
-                AlertUiMessage();
-
+                return View(_model);
             }
-            catch (Exception ex)
+
+            var fileName = FileUpload(personalImage);
+            if (personalImage != null && !string.IsNullOrEmpty(fileName))
+            {
+                model.Personal.PersonalImage = fileName;
+            }
+            if (model.Personal.PersonalId != 0)
             {
 
-                throw ex;
+                if (GetLoginUser() != null)
+                {
+                    model.Personal.LastModified = GetLoginUser().UserName;
+                }
+
+                model.Personal.LastModifiedDate = DateTime.Now;
+                model.Personal.IsNewItem = false;
+                var updatePersonal = _personal.Update(model.Personal);
+                await updatePersonal;
+                if (updatePersonal.IsCompleted)
+                {
+                    alertUi.AlertUiType = updatePersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
+                    CleaCache();
+                }
             }
+            else
+            {
+                model.Personal.CreationDate = DateTime.Now;
+                model.Personal.IsNewItem = true;
+
+                if (GetLoginUser() != null)
+                {
+                    model.Personal.CreatedBy = GetLoginUser().UserName;
+                }
+                var addPersonal = _personal.Add(model.Personal);
+                await addPersonal;
+                if (addPersonal.IsCompleted)
+                {
+                    alertUi.AlertUiType = addPersonal.IsCompleted ? AlertUiType.success : AlertUiType.error;
+                    CleaCache();
+                }
+
+            }
+
+            AlertUiMessage();
+
+
 
             return RedirectToAction("Index", model);
         }
@@ -262,7 +252,7 @@ namespace App.WebInfo.MVCUI.Controllers
                 var imageType = fileName.Substring(fileName.LastIndexOf('.'),
                     fileName.Length - fileName.LastIndexOf('.'));
                 newFileName = Guid.NewGuid() + "-" + imageType;
-                string newFile = Path.Combine(path, newFileName);
+                var newFile = Path.Combine(path, newFileName);
                 using (Stream fs = System.IO.File.Create(newFile))
                 {
                     if (fs != null)
@@ -293,7 +283,7 @@ namespace App.WebInfo.MVCUI.Controllers
             if (GetLoginUser().IsCreate || !GetLoginUser().IsReader)
             {
                 tmpl += "<li>" +
-                        "<a href=\"" + Url.Action("Edit", "Personal", new {Id = id}) + "\">" +
+                        "<a href=\"" + Url.Action("Edit", "Personal", new { Id = id }) + "\">" +
                         "<i class=\"icon-docs\"></i> Düzenle" +
                         "</a>" +
                         "</li>";
@@ -301,7 +291,7 @@ namespace App.WebInfo.MVCUI.Controllers
             if (GetLoginUser().IsDelete)
             {
                 tmpl += "<li>" +
-                        "<a href=\"" + Url.Action("Delete", "Personal", new {Id = id}) +
+                        "<a href=\"" + Url.Action("Delete", "Personal", new { Id = id }) +
                         "\" data-callback=\"TableDatatablesManaged.reflesh()\" class=\"btn-delete\">" +
                         "<i class=\"icon-trash\"></i> Sil" +
                         "</a>" +
@@ -460,15 +450,15 @@ namespace App.WebInfo.MVCUI.Controllers
                     return Json(new { isSuccess = false });
                 }
 
-                return Json(new { isSuccess = true, result=ilceList.Select(x=>new{value=x.IlceId,text=x.IlceName}).ToList() });
+                return Json(new { isSuccess = true, result = ilceList.Select(x => new { value = x.IlceId, text = x.IlceName }).ToList() });
             }
             catch (Exception)
             {
                 return Json(new { isSuccess = false });
             }
-    
+
         }
-        
+
 
 
     }
