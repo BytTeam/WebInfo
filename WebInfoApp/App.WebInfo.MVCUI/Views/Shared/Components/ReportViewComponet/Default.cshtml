@@ -56,6 +56,16 @@
             <select asp-for="Filter.IkametDurumu.IkametDurumuId" asp-items="Model.IkametDurumuList"></select>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <label asp-for="Filter.DogumTarihi">Doğum Tarihi</label>           
+            <div class="input-group input-large date-picker input-daterange" data-date-format="dd/mm/yyyy">
+                <input type="text" asp-for="DogumTarihiBegin" class="form-control">
+                <span class="input-group-addon"> to </span>
+                <input type="text" asp-for="DogumTarihiEnd" class="form-control"> </div>
+        </div>
+        
+    </div>
     <div class="btn-group">
         <input type="submit" class="btn btn-primary" value="Ara"/>
     </div>

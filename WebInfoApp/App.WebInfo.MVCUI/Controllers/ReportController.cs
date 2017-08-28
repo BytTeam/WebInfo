@@ -73,7 +73,7 @@ namespace App.WebInfo.MVCUI.Controllers
             string isFiltered = _httpContextAccessor.HttpContext.Session.GetString("IsFiltered");
 
             List<Personal> personalList = new List<Personal>();
-            
+
 
             if (isFiltered == "true")
             {
@@ -143,6 +143,16 @@ namespace App.WebInfo.MVCUI.Controllers
                     where += String.Format(" and IkametDurumuId={0}", param.IkametDurumu.IkametDurumuId);
                 }
 
+                if (!string.IsNullOrEmpty(paramx.DogumTarihiBegin) && !string.IsNullOrEmpty(paramx.DogumTarihiEnd))
+                {
+                    var beginTarih = ConvertBetweenDate(paramx.DogumTarihiBegin);
+                    var endTarih = ConvertBetweenDate(paramx.DogumTarihiEnd);
+                    if (!string.IsNullOrEmpty(beginTarih) && !string.IsNullOrEmpty(endTarih))
+                    {
+                        where += String.Format(" and CAST(DogumTarihi as date) between '{0}' and '{1}'",
+                            beginTarih, endTarih);
+                    }
+                }
 
                 if (!string.IsNullOrEmpty(where))
                 {
@@ -216,6 +226,15 @@ namespace App.WebInfo.MVCUI.Controllers
             return Json(model);
         }
 
-
+        private static string ConvertBetweenDate(string stringDate)
+        {
+            var convertDate = string.Empty;
+            var splits = stringDate.Split('/');
+            if (splits.Length == 3)
+            {
+                convertDate = string.Format("{0}-{1}-{2}", splits[2], splits[1], splits[0]);
+            }
+            return convertDate;
+        }
     }
 }

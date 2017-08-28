@@ -10,7 +10,8 @@ namespace App.WebInfo.MVCUI.Models
     public class ReportViewModel
     {
         public Personal Filter { get; set; }
-
+        public String DogumTarihiBegin { get; set; }
+        public String DogumTarihiEnd { get; set; }
         public SelectList CinsiyetList { get; set; }
         public SelectList DinList { get; set; }
         public SelectList DogumYeriList { get; set; }
