@@ -96,7 +96,7 @@ namespace App.WebInfo.MVCUI.Controllers
             });
 
             long kacakCount =
-               await _personalService.Count(x => !x.IsDelete && (x.IkametDurumu.IkametDurumuId == 3 || x.IkametDurumu.IkametDurumuId == 4));
+               await _personalService.Count(x => !x.IsDelete && (x.IkametDurumu.IkametDurumuId == 4 || x.IkametDurumu.IkametDurumuId == 5));
             reportBoxs.Add(new HomeReporBoxModel
             {
                 Count = kacakCount,
