@@ -365,18 +365,21 @@ namespace App.WebInfo.MVCUI.Controllers
 
             List<Personal> cacheModel;
 
-            if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
-            {
-                var lists = _personal.GetList(x => !x.IsDelete && x.IsNewItem == true);
-                await lists;
-                cacheModel = lists.Result;
-                var opts = new MemoryCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromMinutes(5)
-                };
-                _memoryCache.Set(cacheKey, cacheModel, opts);
-            }
+            //if (!_memoryCache.TryGetValue(cacheKey, out cacheModel))
+            // {
+            //     var lists = _personal.GetList(x => !x.IsDelete && x.IsNewItem == true);
+            //     await lists;
+            //     cacheModel = lists.Result;
+            //     var opts = new MemoryCacheEntryOptions()
+            //     {
+            //         SlidingExpiration = TimeSpan.FromMinutes(5)
+            //     };
+            //     _memoryCache.Set(cacheKey, cacheModel, opts);
+            // }
 
+            var lists = _personal.GetList(x => !x.IsDelete && x.IsNewItem == true);
+            await lists;
+            cacheModel = lists.Result;
 
             List<Personal> list = cacheModel;
 
